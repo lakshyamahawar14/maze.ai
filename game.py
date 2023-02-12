@@ -277,7 +277,12 @@ def drawFinish():
 	finishRect.center = (X//2, Y//2-150)
 	screen.blit(finishText, finishRect)
 
+def loadLevel():
+	screen.fill(BLACK)
+	drawMaze(game.mazeSize, game.levelData)
+
 while True:
+	loadLevel()
 	drawVisited()
 	drawPlayer()
 	if game.isGameOver == True:
