@@ -37,7 +37,7 @@ def generateRandom(size):
 				current.append(2)
 				isHorizontal = False
 			else:
-				if((i == 0 or j == 0) or (i == 2*size or j == size)):
+				if((i == 0 or j == 0) or (i == 2*size or (j == size and i%2 == 1))):
 					current.append(1)
 					continue
 				current.append(np.random.choice(np.arange(0, 2), p=[0.8, 0.2]))
@@ -63,7 +63,7 @@ def generateSemiRandom(size):
 				current.append(2)
 				isHorizontal = False
 			else:
-				if((i == 0 or j == 0) or (i == 2*size or j == size)):
+				if((i == 0 or j == 0) or (i == 2*size or (j == size and i%2 == 1))):
 					current.append(1)
 					continue
 				current.append(randomLevel[idx])
@@ -97,8 +97,8 @@ def generateSemiRandomHelper(sum, size, levelData, levels):
 		return
 
 def generateLevel(size):
-	# data = generateRandom(size)
-	data = generateSemiRandom(size)
+	data = generateRandom(size)
+	# data = generateSemiRandom(size)
 	return data
 
 class Game:
