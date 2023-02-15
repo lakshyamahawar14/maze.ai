@@ -5,13 +5,15 @@ pygame.init()
 
 screenInfo = pygame.display.Info()
 (WIDTH, HEIGHT) = (screenInfo.current_w, screenInfo.current_h)
+(X, Y) = (WIDTH, HEIGHT)
+print(X, Y)
 
 RED = (255, 0, 0)
 BLACK = (0, 0, 0)
-GREEN = (0, 255, 100)
+BLUE = (75, 0, 255)
+GREEN = (0, 255, 75)
 YELLOW = (255, 255, 0)
 WHITE = (255, 255, 255)
-(X, Y) = (WIDTH, HEIGHT)
 
 def initializeScreen():
 	screen = pygame.display.set_mode((X, Y))
@@ -100,23 +102,23 @@ def generateSemiRandomHelper(sum, size, levelData, levels):
 		return
 
 def isMovePossible(i, j, di, dj, size, levelData):
-	x_pos = X//2-size*25+25+50*j
-	y_pos = Y//2-25+50*i
+	x_pos = X//2-size*game.lineLength//2+game.lineLength//2+game.lineLength*j
+	y_pos = Y//2-game.lineLength//2+game.lineLength*i
 	u = levelData[2*i][j+1]
 	d = levelData[2*i+2][j+1]
 	l = levelData[2*i+1][j]
 	r = levelData[2*i+1][j+1]
 	if(di == 1):
-		if(y_pos+50 > Y//2-75+50*size or d == 1):
+		if(y_pos+game.lineLength > Y//2-(3*game.lineLength)//2+game.lineLength*size or d == 1):
 			return False
 	elif(di == -1):
-		if(y_pos-50 < Y//2-25 or u == 1):
+		if(y_pos-game.lineLength < Y//2-game.lineLength//2 or u == 1):
 			return False
 	elif(dj == 1):
-		if(x_pos+50 > X//2-25+25*size or r == 1):
+		if(x_pos+game.lineLength > X//2-game.lineLength//2+game.lineLength//2*size or r == 1):
 			return False
 	elif(dj == -1):
-		if(x_pos-50 < X//2+25-25*size or l == 1):
+		if(x_pos-game.lineLength < X//2+game.lineLength//2-game.lineLength//2*size or l == 1):
 			return False
 	return True
 
@@ -141,13 +143,27 @@ class Game:
 	visited = []
 	isGameOver = True
 	isGameFinish = True
+	fontSize = 0
+	lineLength = 0
+	lineWidth = 0
 
 	def __init__(self, _mazeSize):
+		self.fontSize = 32
+		self.lineLength = 50
+		self.lineWidth = 5
 		self.mazeSize = _mazeSize
 		self.levelData = generateLevel(self.mazeSize)
 		self.level = self.mazeSize
-		self.x_player = X//2-self.mazeSize*25+25
-		self.y_player = Y//2-25
+		self.x_player = X//2-self.mazeSize*self.lineLength//2+self.lineLength//2
+		self.y_player = Y//2-self.lineLength//2
+		self.visited = [[0 for i in range(self.mazeSize)] for j in range(self.mazeSize)]
+		self.visited[0][0] = 1
+		self.isGameOver = False
+		self.isGameFinish = False
+
+	def reset(self):
+		self.x_player = X//2-self.mazeSize*self.lineLength//2+self.lineLength//2
+		self.y_player = Y//2-self.lineLength//2
 		self.visited = [[0 for i in range(self.mazeSize)] for j in range(self.mazeSize)]
 		self.visited[0][0] = 1
 		self.isGameOver = False
@@ -163,44 +179,44 @@ class Game:
 game = Game(np.random.randint(3, 8))
 
 def drawHeadText():
-	font = pygame.font.Font(None, 32)
+	font = pygame.font.Font(None, game.fontSize+12)
 	headText = font.render('MAZE.AI', True, GREEN, BLACK)
 	headRect = headText.get_rect()
 	headRect.center = (X//2, 50)
 	screen.blit(headText, headRect)
 
 def drawLevelText(level):
-	font = pygame.font.Font(None, 24)
-	levelText = font.render(f'Level: {level}', True, GREEN, BLACK)
+	font = pygame.font.Font(None, game.fontSize)
+	levelText = font.render(f'LEVEL: {level}', True, GREEN, BLACK)
 	levelRect = levelText.get_rect()
 	levelRect.center = (X//2, 150)
 	screen.blit(levelText, levelRect)
 
 def drawPlayer():
-	pygame.draw.line(screen, RED, (game.x_player-5, game.y_player), (game.x_player+5, game.y_player), 5)
+	pygame.draw.line(screen, RED, (game.x_player-game.lineWidth, game.y_player), (game.x_player+game.lineWidth, game.y_player), game.lineWidth)
 
 def isValid(u, d, l, r, key):
 	if(key == 119):
-		if(game.y_player-50 < Y//2-25 or u == 1):
+		if(game.y_player-game.lineLength < Y//2-game.lineLength//2 or u == 1):
 			return False
 		return True
 	elif(key == 115):
-		if(game.y_player+50 > Y//2-75+50*game.mazeSize or d == 1):
+		if(game.y_player+game.lineLength > Y//2-(3*game.lineLength)//2+game.lineLength*game.mazeSize or d == 1):
 			return False
 		return True
 	elif(key == 97):
-		if(game.x_player-50 < X//2+25-25*game.mazeSize or l == 1):
+		if(game.x_player-game.lineLength < X//2+game.lineLength//2-game.lineLength//2*game.mazeSize or l == 1):
 			return False
 		return True
 	elif(key == 100):
-		if(game.x_player+50 > X//2-25+25*game.mazeSize or r == 1):
+		if(game.x_player+game.lineLength > X//2-game.lineLength//2+game.lineLength//2*game.mazeSize or r == 1):
 			return False
 		return True
 	return False
 
 def movePlayer(key):
-	j = (game.x_player-(X//2-game.mazeSize*25+25))//50
-	i = (game.y_player-(Y//2-25))//50
+	j = (game.x_player-(X//2-game.mazeSize*game.lineLength//2+game.lineLength//2))//game.lineLength
+	i = (game.y_player-(Y//2-game.lineLength//2))//game.lineLength
 	u = game.levelData[2*i][j+1]
 	d = game.levelData[2*i+2][j+1]
 	l = game.levelData[2*i+1][j]
@@ -210,16 +226,16 @@ def movePlayer(key):
 	game.updateVisited(i, j, 1)
 	if(key == 119):
 		i -= 1
-		game.updatePlayer(game.x_player, game.y_player-50)
+		game.updatePlayer(game.x_player, game.y_player-game.lineLength)
 	elif(key == 115):
 		i += 1
-		game.updatePlayer(game.x_player, game.y_player+50)
+		game.updatePlayer(game.x_player, game.y_player+game.lineLength)
 	elif(key == 97):
 		j -= 1
-		game.updatePlayer(game.x_player-50, game.y_player)
+		game.updatePlayer(game.x_player-game.lineLength, game.y_player)
 	elif(key == 100):
 		j += 1
-		game.updatePlayer(game.x_player+50, game.y_player)
+		game.updatePlayer(game.x_player+game.lineLength, game.y_player)
 
 	if(i == game.mazeSize-1 and j == game.mazeSize-1):
 		game.isGameFinish = True
@@ -231,19 +247,19 @@ def drawVisited():
 	for i in range(game.mazeSize):
 		for j in range(game.mazeSize):
 			if(game.visited[i][j] == 1):
-				x_visited = X//2-game.mazeSize*25+25+50*j
-				y_visited = Y//2-25+50*i
-				pygame.draw.line(screen, YELLOW, (x_visited-2, y_visited), (x_visited+2, y_visited), 5)
+				x_visited = X//2-game.mazeSize*game.lineLength//2+game.lineLength//2+game.lineLength*j
+				y_visited = Y//2-game.lineLength//2+game.lineLength*i
+				pygame.draw.line(screen, YELLOW, (x_visited-2, y_visited), (x_visited+2, y_visited), game.lineWidth)
 
-def drawVertical(value, x, y, offset=50):
+def drawVertical(value, x, y, offset=game.lineLength):
 	if(value == 0):
 		return
-	pygame.draw.line(screen, GREEN, (x, y), (x, y+offset), 5)
+	pygame.draw.line(screen, GREEN, (x, y), (x, y+offset), game.lineWidth)
 
-def drawHorizontal(value, x, y, offset=50):
+def drawHorizontal(value, x, y, offset=game.lineLength):
 	if(value == 0):
 		return
-	pygame.draw.line(screen, GREEN, (x, y), (x+offset, y), 5)
+	pygame.draw.line(screen, GREEN, (x, y), (x+offset, y), game.lineWidth)
 
 def drawLine(type, value, x, y):
 	if(type != 2):
@@ -251,64 +267,87 @@ def drawLine(type, value, x, y):
 	else:
 		drawHorizontal(value, x, y)
 
-def drawMaze(mazeSize, levelData):
-	(x, y) = (X//2-25*mazeSize, Y//2-50)
-	for i in range(0, len(levelData)):
+def drawMaze():
+	(x, y) = (X//2-game.lineLength//2*game.mazeSize, Y//2-game.lineLength)
+	for i in range(0, len(game.levelData)):
 		isHorizontal = False
 		isVertical = False
-		for j in range(0, len(levelData[0])):
+		for j in range(0, len(game.levelData[0])):
 			if(isHorizontal == True):
-				drawLine(2, levelData[i][j], x, y)
-				x += 50
+				drawLine(2, game.levelData[i][j], x, y)
+				x += game.lineLength
 
-			if(levelData[i][j] == 2 and isHorizontal == False):
+			if(game.levelData[i][j] == 2 and isHorizontal == False):
 				isHorizontal = True
 			elif(isHorizontal == False and isVertical == False):
 				isVertical = True
 
 			if(isVertical == True):
-				drawLine(1, levelData[i][j], x, y)
-				x += 50
+				drawLine(1, game.levelData[i][j], x, y)
+				x += game.lineLength
 
 		if(isVertical == True):
-			y += 50
-			x -= 50*(mazeSize+1)
+			y += game.lineLength
+			x -= game.lineLength*(game.mazeSize+1)
 		else:
-			x -= 50*mazeSize
+			x -= game.lineLength*game.mazeSize
 
-def createTextBox(font, text, text_color, box_color, margin_x, margin_y):
-    text_surf = font.render(text, True, text_color, box_color)
-    box_surf = pygame.Surface(text_surf.get_rect().inflate(margin_x, margin_y).size)
-    box_surf.fill(box_color)
-    box_surf.blit(text_surf, text_surf.get_rect(center = box_surf.get_rect().center))
-    return box_surf
+def createTextBox(font, text, textColor, boxColor, margin_x, margin_y):
+    textSurf = font.render(text, True, textColor, boxColor)
+    boxSurf = pygame.Surface(textSurf.get_rect().inflate(margin_x, margin_y).size)
+    boxSurf.fill(boxColor)
+    boxSurf.blit(textSurf, textSurf.get_rect(center = boxSurf.get_rect().center))
+    return boxSurf
+
+def drawReset():
+	font = pygame.font.Font(None, game.fontSize)
+	text_surf = createTextBox(font, "RESET", BLACK, YELLOW, 10, 10)
+	screen.blit(text_surf, text_surf.get_rect(center = (100, 50)))
+
+def drawRegenerate():
+	font = pygame.font.Font(None, game.fontSize)
+	text_surf = createTextBox(font, "REGENERATE", WHITE, BLUE, 10, 10)
+	screen.blit(text_surf, text_surf.get_rect(center = (300, 50)))
 
 def drawPlayAgain():
-	font = pygame.font.Font(None, 24)
-	text_surf = createTextBox(font, "PLAY AGAIN", BLACK, GREEN, 10, 10)
-	screen.blit(text_surf, text_surf.get_rect(center = (X//2, Y//2-100)))
+	font = pygame.font.Font(None, game.fontSize)
+	textSurf = createTextBox(font, "PLAY AGAIN", BLACK, GREEN, 10, 10)
+	screen.blit(textSurf, textSurf.get_rect(center = (X//2, Y//2-100)))
 
 def drawQuit():
-	font = pygame.font.Font(None, 24)
+	font = pygame.font.Font(None, game.fontSize)
 	text_surf = createTextBox(font, "QUIT", WHITE, RED, 10, 10)
 	screen.blit(text_surf, text_surf.get_rect(center = (X-100, 50)))
 
+def isResetClicked(pos):
+	if(pos[0] > 100-45 and pos[0] < 100+40 and pos[1] > 50-20 and pos[1] < 50+15):
+		return True
+	return False
+
+def isRegenerateClicked(pos):
+	if(pos[0] > 300-83 and pos[0] < 300+83 and pos[1] > 50-20 and pos[1] < 50+20):
+		return True
+	return False
+
 def isPlayAgainClicked(isGameOver, pos):
-	if(isGameOver == True and pos[0] > X//2-50-10 and pos[0] < X//2+50+10 and pos[1] > Y//2-100-12 and pos[1] < Y//2-100+12):
+	if(isGameOver == True and pos[0] > X//2-50-25 and pos[0] < X//2+50+25 and pos[1] > Y//2-100-15 and pos[1] < Y//2-100+15):
 		return True
 	return False
 
 def isQuitClicked(pos):
-	if(pos[0] > X-100-25 and pos[0] < X-100+25 and pos[1] > 50-12 and pos[1] < 50+12):
+	if(pos[0] > X-100-35 and pos[0] < X-100+30 and pos[1] > 50-20 and pos[1] < 50+15):
 		return True
 	return False
 
 def drawGameOver():
-	font = pygame.font.Font(None, 24)
+	font = pygame.font.Font(None, game.fontSize)
 	gameOverText = font.render('Game Over!', True, RED, BLACK)
 	gameOverRect = gameOverText.get_rect()
 	gameOverRect.center = (X//2, Y//2-150)
 	screen.blit(gameOverText, gameOverRect)
+
+def resetMaze():
+	game.reset()
 
 def startNewGame():
 	global game
@@ -317,7 +356,7 @@ def startNewGame():
 	game = Game(randomLevel)
 
 def drawFinish():
-	font = pygame.font.Font(None, 24)
+	font = pygame.font.Font(None, game.fontSize)
 	finishText = font.render('Victory!', True, GREEN, BLACK)
 	finishRect = finishText.get_rect()
 	finishRect.center = (X//2, Y//2-150)
@@ -325,13 +364,15 @@ def drawFinish():
 
 def loadLevel():
 	screen.fill(BLACK)
-	drawMaze(game.mazeSize, game.levelData)
+	drawMaze()
 
 while True:
 	loadLevel()
+	drawReset()
+	drawRegenerate()
+	drawQuit()
 	drawVisited()
 	drawPlayer()
-	drawQuit()
 	if game.isGameOver == True:
 		drawGameOver()
 		drawPlayAgain()
@@ -341,7 +382,7 @@ while True:
 	else:
 		drawHeadText()
 		drawLevelText(game.level)
-		drawMaze(game.mazeSize, game.levelData)
+		drawMaze()
 
 	for event in pygame.event.get():
 		if event.type == pygame.QUIT:
@@ -351,7 +392,9 @@ while True:
 			movePlayer(event.key)
 		if event.type == pygame.MOUSEBUTTONDOWN:
 			pos = pygame.mouse.get_pos()
-			if(isPlayAgainClicked(game.isGameOver or game.isGameFinish, pos) == True):
+			if(isResetClicked(pos) == True):
+				resetMaze()
+			if(isPlayAgainClicked(game.isGameOver or game.isGameFinish, pos) == True or isRegenerateClicked(pos) == True):
 				startNewGame()	
 			if(isQuitClicked(pos) == True):
 				pygame.quit()
