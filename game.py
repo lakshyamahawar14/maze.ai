@@ -7,7 +7,7 @@ screenInfo = pygame.display.Info()
 (WIDTH, HEIGHT) = (screenInfo.current_w, screenInfo.current_h)
 
 RED = (255, 0, 0)
-BLACK = (25, 25, 25)
+BLACK = (0, 0, 0)
 GREEN = (0, 255, 100)
 YELLOW = (255, 255, 0)
 WHITE = (255, 255, 255)
@@ -163,14 +163,14 @@ class Game:
 game = Game(np.random.randint(3, 8))
 
 def drawHeadText():
-	font = pygame.font.Font('freesansbold.ttf', 32)
+	font = pygame.font.Font(None, 32)
 	headText = font.render('MAZE.AI', True, GREEN, BLACK)
 	headRect = headText.get_rect()
 	headRect.center = (X//2, 50)
 	screen.blit(headText, headRect)
 
 def drawLevelText(level):
-	font = pygame.font.Font('freesansbold.ttf', 24)
+	font = pygame.font.Font(None, 24)
 	levelText = font.render(f'Level: {level}', True, GREEN, BLACK)
 	levelRect = levelText.get_rect()
 	levelRect.center = (X//2, 150)
@@ -276,19 +276,22 @@ def drawMaze(mazeSize, levelData):
 		else:
 			x -= 50*mazeSize
 
+def createTextBox(font, text, text_color, box_color, margin_x, margin_y):
+    text_surf = font.render(text, True, text_color, box_color)
+    box_surf = pygame.Surface(text_surf.get_rect().inflate(margin_x, margin_y).size)
+    box_surf.fill(box_color)
+    box_surf.blit(text_surf, text_surf.get_rect(center = box_surf.get_rect().center))
+    return box_surf
+
 def drawPlayAgain():
-	font = pygame.font.Font('freesansbold.ttf', 24)
-	buttonText = font.render('Play Again', True, BLACK, GREEN)
-	buttonRect = buttonText.get_rect()
-	buttonRect.center = (X//2, Y//2-100)
-	screen.blit(buttonText, buttonRect)
+	font = pygame.font.Font(None, 24)
+	text_surf = createTextBox(font, "PLAY AGAIN", BLACK, GREEN, 10, 10)
+	screen.blit(text_surf, text_surf.get_rect(center = (X//2, Y//2-100)))
 
 def drawQuit():
-	font = pygame.font.Font('freesansbold.ttf', 24)
-	buttonText = font.render('Quit', True, WHITE, RED)
-	buttonRect = buttonText.get_rect()
-	buttonRect.center = (X-100, 50)
-	screen.blit(buttonText, buttonRect)
+	font = pygame.font.Font(None, 24)
+	text_surf = createTextBox(font, "QUIT", WHITE, RED, 10, 10)
+	screen.blit(text_surf, text_surf.get_rect(center = (X-100, 50)))
 
 def isPlayAgainClicked(isGameOver, pos):
 	if(isGameOver == True and pos[0] > X//2-50-10 and pos[0] < X//2+50+10 and pos[1] > Y//2-100-12 and pos[1] < Y//2-100+12):
@@ -301,7 +304,7 @@ def isQuitClicked(pos):
 	return False
 
 def drawGameOver():
-	font = pygame.font.Font('freesansbold.ttf', 24)
+	font = pygame.font.Font(None, 24)
 	gameOverText = font.render('Game Over!', True, RED, BLACK)
 	gameOverRect = gameOverText.get_rect()
 	gameOverRect.center = (X//2, Y//2-150)
@@ -314,7 +317,7 @@ def startNewGame():
 	game = Game(randomLevel)
 
 def drawFinish():
-	font = pygame.font.Font('freesansbold.ttf', 24)
+	font = pygame.font.Font(None, 24)
 	finishText = font.render('Victory!', True, GREEN, BLACK)
 	finishRect = finishText.get_rect()
 	finishRect.center = (X//2, Y//2-150)
