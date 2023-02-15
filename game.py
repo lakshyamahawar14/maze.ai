@@ -3,12 +3,15 @@ import numpy as np
 
 pygame.init()
 
+screenInfo = pygame.display.Info()
+(WIDTH, HEIGHT) = (screenInfo.current_w, screenInfo.current_h)
+
 RED = (255, 0, 0)
 BLACK = (25, 25, 25)
 GREEN = (0, 255, 100)
 YELLOW = (255, 255, 0)
 WHITE = (255, 255, 255)
-(X, Y) = (800, 700)
+(X, Y) = (WIDTH, HEIGHT)
 
 def initializeScreen():
 	screen = pygame.display.set_mode((X, Y))
@@ -73,8 +76,8 @@ def generateSemiRandom(size):
 
 def generateSemiRandomHelper(sum, size, levelData, levels):
 		density = size
-		if(size > 3 and size < 6):
-			density = size*size//2
+		if(size >= 3 and size < 6):
+			density = size*size//2+size
 		elif(size >= 6):
 			density = size*size
 		
@@ -96,9 +99,37 @@ def generateSemiRandomHelper(sum, size, levelData, levels):
 			generateSemiRandomHelper(sum+1, size, levelData, levels)
 		return
 
+def isMovePossible(i, j, di, dj, size, levelData):
+	x_pos = X//2-size*25+25+50*j
+	y_pos = Y//2-25+50*i
+	u = levelData[2*i][j+1]
+	d = levelData[2*i+2][j+1]
+	l = levelData[2*i+1][j]
+	r = levelData[2*i+1][j+1]
+	if(di == 1):
+		if(y_pos+50 > Y//2-75+50*size or d == 1):
+			return False
+	elif(di == -1):
+		if(y_pos-50 < Y//2-25 or u == 1):
+			return False
+	elif(dj == 1):
+		if(x_pos+50 > X//2-25+25*size or r == 1):
+			return False
+	elif(dj == -1):
+		if(x_pos-50 < X//2+25-25*size or l == 1):
+			return False
+	return True
+
+def isStructured(size, levelData):
+    return True
+
 def generateLevel(size):
-	data = generateRandom(size)
-	# data = generateSemiRandom(size)
+	data = []
+	while True:
+		# data = generateRandom(size)
+		data = generateSemiRandom(size)
+		if(isStructured(size, data) == True):
+			break
 	return data
 
 class Game:
@@ -245,15 +276,27 @@ def drawMaze(mazeSize, levelData):
 		else:
 			x -= 50*mazeSize
 
-def drawButton():
+def drawPlayAgain():
 	font = pygame.font.Font('freesansbold.ttf', 24)
 	buttonText = font.render('Play Again', True, BLACK, GREEN)
 	buttonRect = buttonText.get_rect()
 	buttonRect.center = (X//2, Y//2-100)
 	screen.blit(buttonText, buttonRect)
 
-def isButtonClicked(isGameOver, pos):
+def drawQuit():
+	font = pygame.font.Font('freesansbold.ttf', 24)
+	buttonText = font.render('Quit', True, WHITE, RED)
+	buttonRect = buttonText.get_rect()
+	buttonRect.center = (X-100, 50)
+	screen.blit(buttonText, buttonRect)
+
+def isPlayAgainClicked(isGameOver, pos):
 	if(isGameOver == True and pos[0] > X//2-50-10 and pos[0] < X//2+50+10 and pos[1] > Y//2-100-12 and pos[1] < Y//2-100+12):
+		return True
+	return False
+
+def isQuitClicked(pos):
+	if(pos[0] > X-100-25 and pos[0] < X-100+25 and pos[1] > 50-12 and pos[1] < 50+12):
 		return True
 	return False
 
@@ -285,12 +328,13 @@ while True:
 	loadLevel()
 	drawVisited()
 	drawPlayer()
+	drawQuit()
 	if game.isGameOver == True:
 		drawGameOver()
-		drawButton()
+		drawPlayAgain()
 	elif game.isGameFinish == True:
 		drawFinish()
-		drawButton()
+		drawPlayAgain()
 	else:
 		drawHeadText()
 		drawLevelText(game.level)
@@ -304,7 +348,11 @@ while True:
 			movePlayer(event.key)
 		if event.type == pygame.MOUSEBUTTONDOWN:
 			pos = pygame.mouse.get_pos()
-			if(isButtonClicked(game.isGameOver or game.isGameFinish, pos) == True):
+			if(isPlayAgainClicked(game.isGameOver or game.isGameFinish, pos) == True):
 				startNewGame()	
+			if(isQuitClicked(pos) == True):
+				pygame.quit()
+				quit()
+			
 
 	pygame.display.update()
