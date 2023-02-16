@@ -14,18 +14,16 @@ GREEN = (0, 255, 75)
 YELLOW = (255, 255, 0)
 WHITE = (255, 255, 255)
 
-def initializeScreen():
-	screen = pygame.display.set_mode((X, Y))
-	pygame.display.set_caption('MAZE.AI')
-	screen.fill(BLACK)
-	logoIcon = pygame.image.load('assets/icons/logo.png')
-	pygame.display.set_icon(logoIcon)
 
 screen = pygame.display.set_mode((X, Y))
 pygame.display.set_caption('MAZE.AI')
 screen.fill(BLACK)
 logoIcon = pygame.image.load('assets/icons/logo.png')
 pygame.display.set_icon(logoIcon)
+
+def initializeScreen():
+	global screen
+	screen = pygame.display.set_mode((X, Y))
 	
 def generateRandom(size):
 	tempLevelData = []
@@ -175,7 +173,7 @@ class Game:
 	def updateVisited(self, i, j, val):
 		self.visited[i][j] = val
 
-game = Game((np.random.randint(3, 8), np.random.randint(3, 8)))
+game = Game((np.random.randint(3, 9), np.random.randint(3, 15)))
 
 def drawHeadText():
 	font = pygame.font.Font(None, game.fontSize+12)
@@ -351,8 +349,7 @@ def resetMaze():
 
 def startNewGame():
 	global game
-	initializeScreen()
-	randomLevel = (np.random.randint(3, 8), np.random.randint(3, 8))
+	randomLevel = (np.random.randint(3, 9), np.random.randint(3, 15))
 	game = Game(randomLevel)
 
 def drawFinish():
@@ -363,7 +360,7 @@ def drawFinish():
 	screen.blit(finishText, finishRect)
 
 def loadLevel():
-	screen.fill(BLACK)
+	initializeScreen()
 	drawMaze()
 
 while True:
