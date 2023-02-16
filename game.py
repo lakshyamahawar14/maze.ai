@@ -10,6 +10,7 @@ screenInfo = pygame.display.Info()
 RED = (255, 0, 0)
 BLACK = (0, 0, 0)
 BLUE = (75, 0, 255)
+PINK = (255,175,200)
 GREEN = (0, 255, 75)
 YELLOW = (255, 255, 0)
 WHITE = (255, 255, 255)
@@ -143,6 +144,10 @@ class Game:
 	fontSize = 0
 	lineLength = 0
 	lineWidth = 0
+	isRowInputFocus = True
+	isColInputFocus = True
+	rowInputText = 0
+	colInputText = 0
 
 	def __init__(self, _mazeSize):
 		self.fontSize = 32
@@ -157,6 +162,10 @@ class Game:
 		self.visited[0][0] = 1
 		self.isGameOver = False
 		self.isGameFinish = False
+		self.isRowInputFocus = False
+		self.isColInputFocus = False
+		self.rowInputText = self.mazeSize[0]
+		self.colInputText = self.mazeSize[1]
 
 	def reset(self):
 		self.x_player = X//2-self.mazeSize[1]*self.lineLength//2+self.lineLength//2
@@ -304,8 +313,8 @@ def drawReset():
 
 def drawRegenerate():
 	font = pygame.font.Font(None, game.fontSize)
-	text_surf = createTextBox(font, "REGENERATE", WHITE, BLUE, 10, 10)
-	screen.blit(text_surf, text_surf.get_rect(center = (300, 50)))
+	text_surf = createTextBox(font, "RANDOM", WHITE, BLUE, 10, 10)
+	screen.blit(text_surf, text_surf.get_rect(center = (250, 50)))
 
 def drawPlayAgain():
 	font = pygame.font.Font(None, game.fontSize)
@@ -317,13 +326,28 @@ def drawQuit():
 	text_surf = createTextBox(font, "QUIT", WHITE, RED, 10, 10)
 	screen.blit(text_surf, text_surf.get_rect(center = (X-100, 50)))
 
+def drawRowInput():
+	font = pygame.font.Font(None, game.fontSize)
+	text_surf = createTextBox(font, f'ROW SIZE: {game.rowInputText}', BLACK, PINK, 10, 10)
+	screen.blit(text_surf, text_surf.get_rect(center = (130, 150)))
+
+def drawColInput():
+	font = pygame.font.Font(None, game.fontSize)
+	text_surf = createTextBox(font, f'COL SIZE: {game.colInputText}', BLACK, PINK, 19, 10)
+	screen.blit(text_surf, text_surf.get_rect(center = (130, 200)))
+
+def drawGenerate():
+	font = pygame.font.Font(None, game.fontSize)
+	text_surf = createTextBox(font, 'GENERATE', BLACK, GREEN, 10, 10)
+	screen.blit(text_surf, text_surf.get_rect(center = (130, 250)))
+
 def isResetClicked(pos):
 	if(pos[0] > 100-45 and pos[0] < 100+40 and pos[1] > 50-20 and pos[1] < 50+15):
 		return True
 	return False
 
 def isRegenerateClicked(pos):
-	if(pos[0] > 300-83 and pos[0] < 300+83 and pos[1] > 50-20 and pos[1] < 50+20):
+	if(pos[0] > 250-58 and pos[0] < 250+58 and pos[1] > 50-20 and pos[1] < 50+20):
 		return True
 	return False
 
@@ -337,6 +361,21 @@ def isQuitClicked(pos):
 		return True
 	return False
 
+def isRowInputClicked(pos):
+	if(pos[0] > 100-47 and pos[0] < 150+50 and pos[1] > 150-20 and pos[1] < 150+15):
+		return True
+	return False
+
+def isColInputClicked(pos):
+	if(pos[0] > 100-47 and pos[0] < 150+50 and pos[1] > 200-20 and pos[1] < 200+15):
+		return True
+	return False
+
+def isGeneratedClicked(pos):
+	if(pos[0] > 100-38 and pos[0] < 150+45 and pos[1] > 250-18 and pos[1] < 250+12):
+		return True
+	return False
+
 def drawGameOver():
 	font = pygame.font.Font(None, game.fontSize)
 	gameOverText = font.render('Game Over!', True, RED, BLACK)
@@ -347,10 +386,40 @@ def drawGameOver():
 def resetMaze():
 	game.reset()
 
-def startNewGame():
+def takeRowInput(key):
+	if(int(key) < 49 or int(key) > 58):
+		return
+	game.rowInputText = int(key)-48
+
+def takeColInput(key):
+	if(int(key) < 49 or int(key) > 58):
+		return
+	game.colInputText = int(key)-48
+
+
+def toggleRowInputFocus():
+	if(game.isRowInputFocus == True):
+		game.isRowInputFocus = False
+	else:
+		game.isRowInputFocus = True
+
+def toggleColInputFocus():
+	if(game.isColInputFocus == True):
+		game.isColInputFocus = False
+	else:
+		game.isColInputFocus = True
+
+def startNewGame(size=(0, 0)):
 	global game
-	randomLevel = (np.random.randint(3, 9), np.random.randint(3, 15))
-	game = Game(randomLevel)
+	if(size == (0, 0)):
+		size = (np.random.randint(3, 9), np.random.randint(3, 15))
+	game = Game(size)
+
+def generateManual():
+	row = game.rowInputText
+	col = game.colInputText
+	size = (row, col)
+	startNewGame(size)
 
 def drawFinish():
 	font = pygame.font.Font(None, game.fontSize)
@@ -366,6 +435,9 @@ def loadLevel():
 while True:
 	loadLevel()
 	drawReset()
+	drawRowInput()
+	drawColInput()
+	drawGenerate()
 	drawRegenerate()
 	drawQuit()
 	drawVisited()
@@ -387,12 +459,22 @@ while True:
 			quit()
 		if event.type == pygame.KEYDOWN and game.isGameOver == False and game.isGameFinish == False:
 			movePlayer(event.key)
+		if event.type == pygame.KEYDOWN and game.isRowInputFocus == True:
+			takeRowInput(event.key)
+		if event.type == pygame.KEYDOWN and game.isColInputFocus == True:
+			takeColInput(event.key)
 		if event.type == pygame.MOUSEBUTTONDOWN:
 			pos = pygame.mouse.get_pos()
 			if(isResetClicked(pos) == True):
 				resetMaze()
 			if(isPlayAgainClicked(game.isGameOver or game.isGameFinish, pos) == True or isRegenerateClicked(pos) == True):
 				startNewGame()	
+			if(isRowInputClicked(pos) == True or (isRowInputClicked(pos) == False and game.isRowInputFocus == True)):
+				toggleRowInputFocus()
+			if(isColInputClicked(pos) == True or (isColInputClicked(pos) == False and game.isColInputFocus == True)):
+				toggleColInputFocus()
+			if(isGeneratedClicked(pos) == True):
+				generateManual()
 			if(isQuitClicked(pos) == True):
 				pygame.quit()
 				quit()
