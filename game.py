@@ -347,7 +347,7 @@ def isResetClicked(pos):
 	return False
 
 def isRegenerateClicked(pos):
-	if(pos[0] > 250-58 and pos[0] < 250+58 and pos[1] > 50-20 and pos[1] < 50+20):
+	if(pos[0] > 250-58 and pos[0] < 250+58 and pos[1] > 50-20 and pos[1] < 50+15):
 		return True
 	return False
 
