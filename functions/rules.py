@@ -17,26 +17,6 @@ class Rules:
                     return False
         return True
     
-    def isValid(self, u, d, l, r, key, screenObj, gameObj, playerObj, guiObj):
-        (X, Y) = screenObj.getScreenSize()
-        if(key == 119):
-            if(playerObj.y_player-guiObj.lineLength < Y//2-guiObj.lineLength//2 or u == 1):
-                return False
-            return True
-        elif(key == 115):
-            if(playerObj.y_player+guiObj.lineLength > Y//2-(3*guiObj.lineLength)//2+guiObj.lineLength*gameObj.rowSize or d == 1):
-                return False
-            return True
-        elif(key == 97):
-            if(playerObj.x_player-guiObj.lineLength < X//2+guiObj.lineLength//2-guiObj.lineLength//2*gameObj.colSize or l == 1):
-                return False
-            return True
-        elif(key == 100):
-            if(playerObj.x_player+guiObj.lineLength > X//2-guiObj.lineLength//2+guiObj.lineLength//2*gameObj.colSize or r == 1):
-                return False
-            return True
-        return False
-    
     def isResetClicked(self, pos):
         if(pos[0] > 100-45 and pos[0] < 100+40 and pos[1] > 50-20 and pos[1] < 50+15):
             return True

@@ -43,7 +43,7 @@ while True:
 			pygame.quit()
 			quit()
 		if event.type == pygame.KEYDOWN and gameObj.isGameOver == False and gameObj.isGameFinish == False:
-			playerObj.movePlayer(event.key, screenObj, gameObj, guiObj, rulesObj)
+			playerObj.movePlayer(event.key, screenObj, gameObj, guiObj)
 		if event.type == pygame.KEYDOWN and inputObj.isRowInputFocus == True:
 			inputObj.takeRowInput(event.key)
 		if event.type == pygame.KEYDOWN and inputObj.isColInputFocus == True:
