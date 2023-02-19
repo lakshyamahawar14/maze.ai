@@ -111,45 +111,38 @@ class GUI:
     
     def drawReset(self, screenObj):
         screen = screenObj.screen
-        font = pygame.font.Font(None, self.fontSize)
         textSurf = self.createTextBox("RESET", BLACK, YELLOW, 10, 10)
         screen.blit(textSurf, textSurf.get_rect(center = (100, 50)))
 
     def drawRandom(self, screenObj):
         screen = screenObj.screen
-        font = pygame.font.Font(None, self.fontSize)
         textSurf = self.createTextBox("RANDOM", WHITE, BLUE, 10, 10)
         screen.blit(textSurf, textSurf.get_rect(center = (250, 50)))
 
     def drawPlayAgain(self, screenObj):
         screen = screenObj.screen
         (X, Y) = screenObj.getScreenSize()
-        font = pygame.font.Font(None, self.fontSize)
         textSurf = self.createTextBox("PLAY AGAIN", BLACK, GREEN, 10, 10)
         screen.blit(textSurf, textSurf.get_rect(center = (X//2, Y//2-100)))
 
     def drawQuit(self, screenObj):
         screen = screenObj.screen
         (X, Y) = screenObj.getScreenSize()
-        font = pygame.font.Font(None, self.fontSize)
         textSurf = self.createTextBox("QUIT", WHITE, RED, 10, 10)
         screen.blit(textSurf, textSurf.get_rect(center = (X-100, 50)))
 
-    def drawRowInput(self, screenObj, gameObj):
+    def drawRowInput(self, screenObj, inputObj):
         screen = screenObj.screen
-        font = pygame.font.Font(None, self.fontSize)
-        textSurf = self.createTextBox(f'ROW SIZE: {gameObj.rowSize}', BLACK, PINK, 10, 10)
+        textSurf = self.createTextBox(f'ROW SIZE: {inputObj.rowInput}', BLACK, PINK, 10, 10)
         screen.blit(textSurf, textSurf.get_rect(center = (130, 150)))
 
-    def drawColInput(self, screenObj, gameObj):
+    def drawColInput(self, screenObj, inputObj):
         screen = screenObj.screen
-        font = pygame.font.Font(None, self.fontSize)
-        textSurf = self.createTextBox(f'COL SIZE: {gameObj.colSize}', BLACK, PINK, 19, 10)
+        textSurf = self.createTextBox(f'COL SIZE: {inputObj.colInput}', BLACK, PINK, 19, 10)
         screen.blit(textSurf, textSurf.get_rect(center = (130, 200)))
 
     def drawGenerate(self, screenObj):
         screen = screenObj.screen
-        font = pygame.font.Font(None, self.fontSize)
         text_surf = self.createTextBox('GENERATE', BLACK, GREEN, 10, 10)
         screen.blit(text_surf, text_surf.get_rect(center = (130, 250)))
 

@@ -19,7 +19,7 @@ class Player:
         y = Y//2-lineLength//2
         self.setPlayer((x, y))
 
-    def movePlayer(self, key, screenObj, gameObj, playerObj, guiObj, rulesObj):
+    def movePlayer(self, key, screenObj, gameObj, guiObj, rulesObj):
         (X, Y) = screenObj.getScreenSize()
         rowSize = gameObj.rowSize
         colSize = gameObj.colSize
@@ -32,7 +32,7 @@ class Player:
         l = gameObj.levelMatrix[2*i+1][j]
         r = gameObj.levelMatrix[2*i+1][j+1]
 
-        if(rulesObj.isValid(u, d, l, r, key, screenObj, gameObj, playerObj, guiObj) == False):
+        if(rulesObj.isValid(u, d, l, r, key, screenObj, gameObj, self, guiObj) == False):
             return
         gameObj.updateVisited((i, j), 1)
         if(key == 119):

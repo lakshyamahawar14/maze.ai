@@ -1,4 +1,5 @@
 import numpy as np
+from functions.rules import Rules
 
 class Generators:
 	def generateRandom(self, size):
@@ -24,7 +25,13 @@ class Generators:
 		gameObj.startNewGame(size)
 
 	def generateLevel(self, size):
-		return self.generateRandom(size)
+		rulesObj = Rules()
+		levelMatrix = []
+		while(True):
+			levelMatrix = self.generateRandom(size)
+			if(rulesObj.isStructured(size, levelMatrix) == True):
+				break
+		return levelMatrix
 	
 	def __init__(self):
 		pass

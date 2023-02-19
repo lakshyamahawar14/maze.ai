@@ -1,16 +1,18 @@
 class Input:
     isRowInputFocus = True
     isColInputFocus = True
+    rowInput = 0
+    colInput = 0
 
     def takeRowInput(self, key, gameObj):
         if(int(key) < 49 or int(key) > 58):
             return
-        gameObj.rowSize = int(key)-48
+        self.rowInput = int(key)-48
 
     def takeColInput(self, key, gameObj):
         if(int(key) < 49 or int(key) > 58):
             return
-        gameObj.colSize = int(key)-48
+        self.colInput = int(key)-48
 
     def toggleRowInputFocus(self):
         if(self.isRowInputFocus == True):
@@ -24,6 +26,8 @@ class Input:
         else:
             self.isColInputFocus = True
 
-    def __init__(self):
+    def __init__(self, gameObj):
         self.isRowInputFocus = False
         self.isColInputFocus = False
+        self.rowInput = gameObj.rowSize
+        self.colInput = gameObj.colSize

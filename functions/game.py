@@ -11,11 +11,8 @@ class Game:
 	isGameOver = True
 	isGameFinish = True
 
-
-	def resetGame(self, screenObj, playerObj, guiObj, size=(0, 0)):
-		if(size == (0, 0)):
-			size = self.mazeSize
-		playerObj.resetPlayer(size, screenObj, guiObj)
+	def resetGame(self, screenObj, playerObj, guiObj):
+		playerObj.resetPlayer(self.mazeSize, screenObj, guiObj)
 		self.visited = [[0 for i in range(self.colSize)] for j in range(self.rowSize)]
 		self.visited[0][0] = 1
 		self.isGameOver = False
@@ -24,10 +21,10 @@ class Game:
 	def loadGame(self, screenObj):
 		screenObj.resetScreen()
 
-	def startNewGame(self, screenObj, gameObj, playerObj, guiObj, size=(0, 0)):
+	def startNewGame(self, screenObj, playerObj, guiObj, size=(0, 0)):
 		if(size == (0, 0)):
-			size = (np.random.randint(3, 10), np.random.randint(3, 10))
-		gameObj.resetGame(screenObj, playerObj, guiObj, size)
+			size = (np.random.randint(3, 9), np.random.randint(3, 15))
+		playerObj.resetPlayer(size, screenObj, guiObj)
 		return Game(size)
 
 	def updateVisited(self, position, value):

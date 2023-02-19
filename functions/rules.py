@@ -6,13 +6,13 @@ class Rules:
             for j in range(col):
                 count = 0
                 if(i+1 < row):
-                    count += levelMatrix[i+1][j]
+                    count += (levelMatrix[i+1][j]==1)
                 if(i-1 >= 0):
-                    count += levelMatrix[i-1][j]
+                    count += (levelMatrix[i-1][j]==1)
                 if(j+1 < col):
-                    count += levelMatrix[i][j+1]
+                    count += (levelMatrix[i][j+1]==1)
                 if(j-1 >= 0):
-                    count += levelMatrix[i][j-1]
+                    count += (levelMatrix[i][j-1]==1)
                 if count > 3:
                     return False
         return True
@@ -73,4 +73,7 @@ class Rules:
         if(pos[0] > 100-38 and pos[0] < 150+45 and pos[1] > 250-18 and pos[1] < 250+12):
             return True
         return False
+    
+    def __init__(self):
+        pass
     

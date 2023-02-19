@@ -11,18 +11,18 @@ from functions.rules import Rules
 pygame.init()
 
 screenObj = Screen()
-gameObj = Game((np.random.randint(3, 5), np.random.randint(3, 10)))
+gameObj = Game((np.random.randint(3, 9), np.random.randint(3, 15)))
 guiObj = GUI()
 playerObj = Player(screenObj, gameObj, guiObj)
-inputObj = Input()
+inputObj = Input(gameObj)
 rulesObj = Rules()
 
 while True:
 	gameObj.loadGame(screenObj)
 	guiObj.drawReset(screenObj)
 	guiObj.drawRandom(screenObj)
-	guiObj.drawRowInput(screenObj, gameObj)
-	guiObj.drawColInput(screenObj, gameObj)
+	guiObj.drawRowInput(screenObj, inputObj)
+	guiObj.drawColInput(screenObj, inputObj)
 	guiObj.drawGenerate(screenObj)
 	guiObj.drawQuit(screenObj)
 	guiObj.drawVisited(screenObj, gameObj)
@@ -44,7 +44,7 @@ while True:
 			pygame.quit()
 			quit()
 		if event.type == pygame.KEYDOWN and gameObj.isGameOver == False and gameObj.isGameFinish == False:
-			playerObj.movePlayer(event.key, screenObj, gameObj, playerObj, guiObj, rulesObj)
+			playerObj.movePlayer(event.key, screenObj, gameObj, guiObj, rulesObj)
 		if event.type == pygame.KEYDOWN and inputObj.isRowInputFocus == True:
 			inputObj.takeRowInput(event.key, gameObj)
 		if event.type == pygame.KEYDOWN and inputObj.isColInputFocus == True:
@@ -54,13 +54,13 @@ while True:
 			if(rulesObj.isResetClicked(pos) == True):
 				gameObj.resetGame(screenObj, playerObj, guiObj)
 			if(rulesObj.isPlayAgainClicked(gameObj.isGameOver or gameObj.isGameFinish, pos, screenObj) == True or rulesObj.isRandomClicked(pos) == True):
-				gameObj = gameObj.startNewGame(screenObj, gameObj, playerObj, guiObj)	
+				gameObj = gameObj.startNewGame(screenObj, playerObj, guiObj)	
 			if(rulesObj.isRowInputClicked(pos) == True or (rulesObj.isRowInputClicked(pos) == False and inputObj.isRowInputFocus == True)):
 				inputObj.toggleRowInputFocus()
 			if(rulesObj.isColInputClicked(pos) == True or (rulesObj.isColInputClicked(pos) == False and inputObj.isColInputFocus == True)):
 				inputObj.toggleColInputFocus()
 			if(rulesObj.isGenerateClicked(pos) == True):
-				gameObj = gameObj.startNewGame(screenObj, gameObj, playerObj, guiObj, (gameObj.rowSize, gameObj.colSize))
+				gameObj = gameObj.startNewGame(screenObj, playerObj, guiObj, (inputObj.rowInput, inputObj.colInput))
 			if(rulesObj.isQuitClicked(pos, screenObj) == True):
 				pygame.quit()
 				quit()
