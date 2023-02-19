@@ -1,7 +1,6 @@
 import pygame
 import numpy as np
 from functions.screen import Screen
-from functions.colors import RED, BLACK, BLUE, GREEN, PINK, YELLOW, WHITE
 from functions.game import Game
 from functions.player import Player
 from functions.gui import GUI
@@ -46,9 +45,9 @@ while True:
 		if event.type == pygame.KEYDOWN and gameObj.isGameOver == False and gameObj.isGameFinish == False:
 			playerObj.movePlayer(event.key, screenObj, gameObj, guiObj, rulesObj)
 		if event.type == pygame.KEYDOWN and inputObj.isRowInputFocus == True:
-			inputObj.takeRowInput(event.key, gameObj)
+			inputObj.takeRowInput(event.key)
 		if event.type == pygame.KEYDOWN and inputObj.isColInputFocus == True:
-			inputObj.takeColInput(event.key, gameObj)
+			inputObj.takeColInput(event.key)
 		if event.type == pygame.MOUSEBUTTONDOWN:
 			pos = pygame.mouse.get_pos()
 			if(rulesObj.isResetClicked(pos) == True):

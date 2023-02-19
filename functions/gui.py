@@ -1,5 +1,5 @@
 import pygame
-from functions.colors import RED, BLACK, BLUE, GREEN, PINK, YELLOW, WHITE
+from functions.colors import RED, BLACK, PURPLE, GREEN, PINK, YELLOW, WHITE
 
 class GUI:
     fontSize = 32
@@ -116,7 +116,7 @@ class GUI:
 
     def drawRandom(self, screenObj):
         screen = screenObj.screen
-        textSurf = self.createTextBox("RANDOM", WHITE, BLUE, 10, 10)
+        textSurf = self.createTextBox("RANDOM", WHITE, PURPLE, 10, 10)
         screen.blit(textSurf, textSurf.get_rect(center = (250, 50)))
 
     def drawPlayAgain(self, screenObj):

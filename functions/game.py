@@ -13,6 +13,7 @@ class Game:
 
 	def resetGame(self, screenObj, playerObj, guiObj):
 		playerObj.resetPlayer(self.mazeSize, screenObj, guiObj)
+		print(self.levelMatrix)
 		self.visited = [[0 for i in range(self.colSize)] for j in range(self.rowSize)]
 		self.visited[0][0] = 1
 		self.isGameOver = False

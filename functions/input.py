@@ -4,12 +4,12 @@ class Input:
     rowInput = 0
     colInput = 0
 
-    def takeRowInput(self, key, gameObj):
+    def takeRowInput(self, key):
         if(int(key) < 49 or int(key) > 58):
             return
         self.rowInput = int(key)-48
 
-    def takeColInput(self, key, gameObj):
+    def takeColInput(self, key):
         if(int(key) < 49 or int(key) > 58):
             return
         self.colInput = int(key)-48
