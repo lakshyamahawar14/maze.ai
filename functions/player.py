@@ -1,4 +1,4 @@
-from functions.rules import Rules
+from pygame import mixer
 
 class Player:
     x_player = 0
@@ -27,6 +27,10 @@ class Player:
         j = (self.x_player-(X//2-colSize*guiObj.lineLength//2+guiObj.lineLength//2))//guiObj.lineLength
         i = (self.y_player-(Y//2-guiObj.lineLength//2))//guiObj.lineLength
 
+        mixer.init()
+        mixer.music.load('assets/sounds/playermove.wav')
+        mixer.music.set_volume(0.2)
+
         if key == 119:
             if(i-1 < 0 or gameObj.levelMatrix[2*i-1][2*j] == 1):
                 return
@@ -52,10 +56,15 @@ class Player:
 
         if(i == rowSize-1 and j == colSize-1):
             gameObj.isGameFinish = True
+            mixer.music.load('assets/sounds/victory.mp3')
+
         if(gameObj.visited[i][j] == 1):
             gameObj.isGameOver = True
+            mixer.music.load('assets/sounds/gameover.mp3')
         else:
             gameObj.updateVisited((i, j), 1)
+        
+        mixer.music.play()
 
     def __init__(self, screenObj, gameObj, guiObj):
         (X, Y) = screenObj.getScreenSize()
