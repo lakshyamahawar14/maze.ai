@@ -133,12 +133,20 @@ class GUI:
 
     def drawRowInput(self, screenObj, inputObj):
         screen = screenObj.screen
-        textSurf = self.createTextBox(f'ROW SIZE: {inputObj.rowInput}', BLACK, PINK, 10, 5)
+        if(inputObj.isRowInputFocus == True):
+            textSurf = self.createTextBox(f'ROW SIZE: {inputObj.rowInput}|', BLACK, PINK, 10, 5)
+        else:
+            textSurf = self.createTextBox(f'ROW SIZE: {inputObj.rowInput}', BLACK, PINK, 10, 5)
+            
         screen.blit(textSurf, textSurf.get_rect(center = (130, 150)))
 
     def drawColInput(self, screenObj, inputObj):
         screen = screenObj.screen
-        textSurf = self.createTextBox(f'COL SIZE: {inputObj.colInput}', BLACK, PINK, 19, 5)
+        if(inputObj.isColInputFocus == True):
+            textSurf = self.createTextBox(f'COL SIZE: {inputObj.colInput}|', BLACK, PINK, 19, 5)
+        else:
+            textSurf = self.createTextBox(f'COL SIZE: {inputObj.colInput}', BLACK, PINK, 19, 5)
+            
         screen.blit(textSurf, textSurf.get_rect(center = (130, 200)))
 
     def drawGenerate(self, screenObj):
