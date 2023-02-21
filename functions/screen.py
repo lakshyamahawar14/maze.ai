@@ -2,9 +2,9 @@ import pygame
 from functions.colors import BLACK
 
 class Screen:
-    screen = None
     HEIGHT = 800
     WIDTH = 600
+    screen = None
 
     def getScreenSize(self):
         return (self.HEIGHT, self.WIDTH)
