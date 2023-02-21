@@ -31,6 +31,7 @@ class Game:
 		playerObj.resetPlayer(size, screenObj, guiObj)
 		inputObj.rowInput = size[0]
 		inputObj.colInput = size[1]
+		inputObj.difficultyInput = 1
 		return Game(size)
 	
 	def setLevel(self, levelNumber):
