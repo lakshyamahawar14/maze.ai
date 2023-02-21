@@ -1,5 +1,4 @@
 import numpy as np
-from functions.rules import Rules
 
 class Generators:
 	def generateRandom(self, size):
@@ -38,15 +37,18 @@ class Generators:
 		gameObj.startNewGame(size)
 
 	def generateLevel(self, size):
-		# rulesObj = Rules()
 		levelMatrix = []
+		countpaths = 0
 		while(True):
 			levelMatrix = self.generateRandom(size)
-			# if(rulesObj.isStructured(size, levelMatrix) == True and self.findUniquePaths(levelMatrix) != 0):
-			# 	break
-			if(self.findUniquePaths(levelMatrix) != 0):
+			countpaths = self.findUniquePaths(levelMatrix)
+			if(countpaths != 0):
 				break
-		return levelMatrix
+		countones = 0
+		for i in range(size[0]):
+			for j in range(size[1]):
+				countones += levelMatrix[i][j]==1
+		return (levelMatrix, countpaths, countones)
 	
 	def __init__(self):
 		pass

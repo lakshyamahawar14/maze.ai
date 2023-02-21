@@ -6,6 +6,7 @@ from functions.player import Player
 from functions.gui import GUI
 from functions.input import Input
 from functions.rules import Rules
+from functions.writecsv import insertData
 
 pygame.init()
 
@@ -64,9 +65,9 @@ while True:
 				inputObj.toggleColInputFocus()
 			if(rulesObj.isDifficultyInputClicked(pos, screenObj) == True or (rulesObj.isDifficultyInputClicked(pos, screenObj) == False and inputObj.isDifficultyInputFocus == True)):
 				inputObj.toggleDifficultyInputFocus()
-
 			if(rulesObj.isRateClicked(pos, screenObj) == True):
 				gameObj.setLevel(inputObj.difficultyInput)
+				insertData(gameObj.rowSize, gameObj.colSize, gameObj.numberOfSolutions, gameObj.numberOfOnes, gameObj.solutionsPerPath, gameObj.levelNumber)
 			if(rulesObj.isGenerateClicked(pos) == True):
 				gameObj = gameObj.startNewGame(screenObj, playerObj, guiObj, inputObj, (inputObj.rowInput, inputObj.colInput))
 			if(rulesObj.isQuitClicked(pos, screenObj) == True):
