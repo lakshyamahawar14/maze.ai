@@ -7,11 +7,13 @@ from functions.gui import GUI
 from functions.input import Input
 from functions.rules import Rules
 from functions.writecsv import insertData
+from functions.models import Models
 
 pygame.init()
 
 screenObj = Screen()
-gameObj = Game((np.random.randint(9, 14), np.random.randint(9, 25)))
+modelsObj = Models()
+gameObj = Game((np.random.randint(9, 14), np.random.randint(9, 25)), modelsObj)
 guiObj = GUI()
 playerObj = Player(screenObj, gameObj, guiObj)
 inputObj = Input(gameObj)
@@ -58,7 +60,7 @@ while True:
 			if(rulesObj.isResetClicked(pos) == True):
 				gameObj.resetGame(screenObj, playerObj, guiObj)
 			if(rulesObj.isPlayAgainClicked(gameObj.isGameOver or gameObj.isGameFinish, pos, screenObj) == True or rulesObj.isRandomClicked(pos) == True):
-				gameObj = gameObj.startNewGame(screenObj, playerObj, guiObj, inputObj)	
+				gameObj = gameObj.startNewGame(screenObj, playerObj, guiObj, inputObj, modelsObj)	
 			if(rulesObj.isRowInputClicked(pos) == True or (rulesObj.isRowInputClicked(pos) == False and inputObj.isRowInputFocus == True)):
 				inputObj.toggleRowInputFocus()
 			if(rulesObj.isColInputClicked(pos) == True or (rulesObj.isColInputClicked(pos) == False and inputObj.isColInputFocus == True)):
@@ -69,7 +71,7 @@ while True:
 				gameObj.setLevel(inputObj.difficultyInput)
 				insertData(gameObj.rowSize, gameObj.colSize, gameObj.numberOfSolutions, gameObj.numberOfOnes, gameObj.solutionsPerPath, gameObj.levelNumber)
 			if(rulesObj.isGenerateClicked(pos) == True):
-				gameObj = gameObj.startNewGame(screenObj, playerObj, guiObj, inputObj, (inputObj.rowInput, inputObj.colInput))
+				gameObj = gameObj.startNewGame(screenObj, playerObj, guiObj, inputObj, modelsObj, (inputObj.rowInput, inputObj.colInput))
 			if(rulesObj.isQuitClicked(pos, screenObj) == True):
 				pygame.quit()
 				quit()
