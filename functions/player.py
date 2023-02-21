@@ -1,4 +1,6 @@
 from pygame import mixer
+import numpy as np
+from functions.generators import Generators
 
 class Player:
     x_player = 0
@@ -64,7 +66,7 @@ class Player:
         else:
             gameObj.updateVisited((i, j), 1)
         
-        mixer.music.play()
+        mixer.music.play() 
 
     def __init__(self, screenObj, gameObj, guiObj):
         (X, Y) = screenObj.getScreenSize()

@@ -18,7 +18,7 @@ class Rules:
         return True
     
     def isResetClicked(self, pos):
-        if(pos[0] > 100-45 and pos[0] < 100+40 and pos[1] > 50-20 and pos[1] < 50+15):
+        if(pos[0] > 100-44 and pos[0] < 100+40 and pos[1] > 50-20 and pos[1] < 50+15):
             return True
         return False
     
@@ -48,9 +48,22 @@ class Rules:
         if(pos[0] > 100-47 and pos[0] < 150+50 and pos[1] > 200-20 and pos[1] < 200+15):
             return True
         return False
+    
 
     def isGenerateClicked(self, pos):
-        if(pos[0] > 100-38 and pos[0] < 150+45 and pos[1] > 250-18 and pos[1] < 250+12):
+        if(pos[0] > 100-39 and pos[0] < 150+46 and pos[1] > 250-19 and pos[1] < 250+12):
+            return True
+        return False
+    
+    def isDifficultyInputClicked(self, pos, screenObj):
+        (X, Y) = screenObj.getScreenSize()
+        if(pos[0] > 100-57 and pos[0] < 150+65 and pos[1] > Y-100-20 and pos[1] < Y-100+18):
+            return True
+        return False
+    
+    def isRateClicked(self, pos, screenObj):
+        (X, Y) = screenObj.getScreenSize()
+        if(pos[0] > 100-35 and pos[0] < 150+25 and pos[1] > Y-50-20 and pos[1] < Y-50+18):
             return True
         return False
     

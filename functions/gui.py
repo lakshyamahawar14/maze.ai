@@ -116,7 +116,7 @@ class GUI:
 
     def drawRandom(self, screenObj):
         screen = screenObj.screen
-        textSurf = self.createTextBox("RANDOM", WHITE, PURPLE, 10, 5)
+        textSurf = self.createTextBox("RANDOM", BLACK, PURPLE, 10, 5)
         screen.blit(textSurf, textSurf.get_rect(center = (250, 50)))
 
     def drawPlayAgain(self, screenObj):
@@ -128,7 +128,7 @@ class GUI:
     def drawQuit(self, screenObj):
         screen = screenObj.screen
         (X, Y) = screenObj.getScreenSize()
-        textSurf = self.createTextBox("QUIT", WHITE, RED, 10, 5)
+        textSurf = self.createTextBox("QUIT", BLACK, RED, 10, 5)
         screen.blit(textSurf, textSurf.get_rect(center = (X-100, 50)))
 
     def drawRowInput(self, screenObj, inputObj):
@@ -148,6 +148,22 @@ class GUI:
             textSurf = self.createTextBox(f'COL SIZE: {inputObj.colInput}', BLACK, PINK, 19, 5)
             
         screen.blit(textSurf, textSurf.get_rect(center = (130, 200)))
+
+    def drawDifficultyInput(self, screenObj, inputObj):
+        screen = screenObj.screen
+        (X, Y) = screenObj.getScreenSize()
+        if(inputObj.isDifficultyInputFocus == True):
+            textSurf = self.createTextBox(f'DIFFICULTY: {inputObj.difficultyInput}|', BLACK, PINK, 19, 5)
+        else:
+            textSurf = self.createTextBox(f'DIFFICULTY: {inputObj.difficultyInput}', BLACK, PINK, 19, 5)
+            
+        screen.blit(textSurf, textSurf.get_rect(center = (130, Y-100)))
+
+    def drawRate(self, screenObj):
+        screen = screenObj.screen
+        (X, Y) = screenObj.getScreenSize()
+        text_surf = self.createTextBox('RATE', BLACK, YELLOW, 10, 5)
+        screen.blit(text_surf, text_surf.get_rect(center = (130, Y-50)))
 
     def drawGenerate(self, screenObj):
         screen = screenObj.screen
@@ -174,5 +190,5 @@ class GUI:
 
     def __init__(self):
         self.fontSize = 24
-        self.lineLength = 50
+        self.lineLength = 32
         self.lineWidth = 5

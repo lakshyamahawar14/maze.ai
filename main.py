@@ -10,7 +10,7 @@ from functions.rules import Rules
 pygame.init()
 
 screenObj = Screen()
-gameObj = Game((np.random.randint(3, 9), np.random.randint(3, 15)))
+gameObj = Game((np.random.randint(9, 14), np.random.randint(9, 25)))
 guiObj = GUI()
 playerObj = Player(screenObj, gameObj, guiObj)
 inputObj = Input(gameObj)
@@ -23,6 +23,8 @@ while True:
 	guiObj.drawRowInput(screenObj, inputObj)
 	guiObj.drawColInput(screenObj, inputObj)
 	guiObj.drawGenerate(screenObj)
+	guiObj.drawDifficultyInput(screenObj, inputObj)
+	guiObj.drawRate(screenObj)
 	guiObj.drawQuit(screenObj)
 	guiObj.drawVisited(screenObj, gameObj)
 	guiObj.drawPlayer(screenObj, playerObj)
@@ -48,6 +50,8 @@ while True:
 			inputObj.takeRowInput(event.key)
 		if event.type == pygame.KEYDOWN and inputObj.isColInputFocus == True:
 			inputObj.takeColInput(event.key)
+		if event.type == pygame.KEYDOWN and inputObj.isDifficultyInputFocus == True:
+			inputObj.takeDifficultyInput(event.key)
 		if event.type == pygame.MOUSEBUTTONDOWN:
 			pos = pygame.mouse.get_pos()
 			if(rulesObj.isResetClicked(pos) == True):
@@ -58,6 +62,11 @@ while True:
 				inputObj.toggleRowInputFocus()
 			if(rulesObj.isColInputClicked(pos) == True or (rulesObj.isColInputClicked(pos) == False and inputObj.isColInputFocus == True)):
 				inputObj.toggleColInputFocus()
+			if(rulesObj.isDifficultyInputClicked(pos, screenObj) == True or (rulesObj.isDifficultyInputClicked(pos, screenObj) == False and inputObj.isDifficultyInputFocus == True)):
+				inputObj.toggleDifficultyInputFocus()
+
+			if(rulesObj.isRateClicked(pos, screenObj) == True):
+				gameObj.setLevel(inputObj.difficultyInput)
 			if(rulesObj.isGenerateClicked(pos) == True):
 				gameObj = gameObj.startNewGame(screenObj, playerObj, guiObj, inputObj, (inputObj.rowInput, inputObj.colInput))
 			if(rulesObj.isQuitClicked(pos, screenObj) == True):

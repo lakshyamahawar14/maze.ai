@@ -26,7 +26,7 @@ class Generators:
 		if(i == r-1 and j == c-1):
 			return 1
 		return  self.findUniquePathsHelper(i+1, j, r, c, levelMatrix) + self.findUniquePathsHelper(i, j+1, r, c, levelMatrix)
-	
+
 	def findUniquePaths(self, levelMatrix):
 		r,c = len(levelMatrix),len(levelMatrix[0])
 		return self.findUniquePathsHelper(0, 0, r, c, levelMatrix)

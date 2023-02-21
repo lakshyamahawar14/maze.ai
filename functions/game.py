@@ -23,11 +23,14 @@ class Game:
 
 	def startNewGame(self, screenObj, playerObj, guiObj, inputObj, size=(0, 0)):
 		if(size == (0, 0)):
-			size = (np.random.randint(3, 9), np.random.randint(3, 15))
+			size = (np.random.randint(9, 14), np.random.randint(9, 25))
 		playerObj.resetPlayer(size, screenObj, guiObj)
 		inputObj.rowInput = size[0]
 		inputObj.colInput = size[1]
 		return Game(size)
+	
+	def setLevel(self, levelNumber):
+		self.levelNumber = levelNumber
 
 	def updateVisited(self, position, value):
 		(i, j) = position
