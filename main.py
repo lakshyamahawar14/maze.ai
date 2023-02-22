@@ -61,6 +61,7 @@ while True:
 				gameObj.resetGame(screenObj, playerObj, guiObj)
 			if(rulesObj.isPlayAgainClicked(gameObj.isGameOver or gameObj.isGameFinish, pos, screenObj) == True or rulesObj.isRandomClicked(pos) == True):
 				gameObj = gameObj.startNewGame(screenObj, playerObj, guiObj, inputObj, modelsObj)	
+				inputObj = Input(gameObj)
 			if(rulesObj.isRowInputClicked(pos) == True or (rulesObj.isRowInputClicked(pos) == False and inputObj.isRowInputFocus == True)):
 				inputObj.toggleRowInputFocus()
 			if(rulesObj.isColInputClicked(pos) == True or (rulesObj.isColInputClicked(pos) == False and inputObj.isColInputFocus == True)):
@@ -72,6 +73,7 @@ while True:
 				insertData(gameObj.rowSize, gameObj.colSize, gameObj.numberOfSolutions, gameObj.numberOfOnes, gameObj.solutionsPerPath, gameObj.levelNumber)
 			if(rulesObj.isGenerateClicked(pos) == True):
 				gameObj = gameObj.startNewGame(screenObj, playerObj, guiObj, inputObj, modelsObj, (inputObj.rowInput, inputObj.colInput))
+				inputObj = Input(gameObj)
 			if(rulesObj.isQuitClicked(pos, screenObj) == True):
 				pygame.quit()
 				quit()

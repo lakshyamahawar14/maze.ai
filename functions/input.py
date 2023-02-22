@@ -45,4 +45,4 @@ class Input:
         self.isDifficultyInputFocus = False
         self.rowInput = gameObj.rowSize
         self.colInput = gameObj.colSize
-        self.difficultyInput = 1
+        self.difficultyInput = gameObj.levelNumber
