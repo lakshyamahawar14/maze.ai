@@ -13,7 +13,8 @@ class Generators:
 				elif i%2 == 1 and j%2 == 1:
 					levelMatrix[i][j] = -1
 				else:
-					levelMatrix[i][j] = np.random.randint(0, 2)
+					p = 0.6
+					levelMatrix[i][j] = np.random.choice([0, 1], p=[p, 1-p])
 					
 		return levelMatrix
 
