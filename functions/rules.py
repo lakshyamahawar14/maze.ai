@@ -51,7 +51,7 @@ class Rules:
     
 
     def isGenerateClicked(self, pos):
-        if(pos[0] > 100-39 and pos[0] < 150+46 and pos[1] > 250-19 and pos[1] < 250+12):
+        if(pos[0] > 100-39 and pos[0] < 150+46 and pos[1] > 250-19 and pos[1] < 250+16):
             return True
         return False
     
