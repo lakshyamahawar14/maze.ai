@@ -27,7 +27,8 @@ class Game:
 
 	def startNewGame(self, screenObj, playerObj, guiObj, inputObj, modelsObj, size=(0, 0)):
 		if(size == (0, 0)):
-			size = (np.random.randint(9, 14), np.random.randint(9, 25))
+			__random_level = np.random.randint(9,12)
+			size = (__random_level, __random_level)
 		playerObj.resetPlayer(size, screenObj, guiObj)
 		inputObj.rowInput = size[0]
 		inputObj.colInput = size[1]
