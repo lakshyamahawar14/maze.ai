@@ -205,7 +205,7 @@ class Generators:
                 continue
             else:
                 if x1 == x2:
-                    x = 2*(size[0]-max(y1, y2))
+                    x = 2*(size[1]-max(y1, y2))
                     y = 2*x1-1
           
                     levelMatrix[x][y] = 1

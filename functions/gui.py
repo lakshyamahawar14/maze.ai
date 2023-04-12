@@ -190,5 +190,5 @@ class GUI:
 
     def __init__(self):
         self.fontSize = 24
-        self.lineLength = 32
+        self.lineLength = 24
         self.lineWidth = 3
