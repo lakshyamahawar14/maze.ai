@@ -8,9 +8,7 @@ class Game:
 	levelMatrix = []
 	levelNumber = 0
 	difficultyLevel = 0
-	numberOfSolutions = 0
 	numberOfOnes = 0
-	solutionsPerPath = 0
 	visited = []
 	isGameOver = True
 	isGameFinish = True
@@ -47,9 +45,8 @@ class Game:
 		self.rowSize = self.mazeSize[0]
 		self.colSize = self.mazeSize[1]
 		generatorObj = Generators()
-		(self.levelMatrix, self.numberOfSolutions, self.numberOfOnes) = generatorObj.generateLevel(self.mazeSize)
-		self.solutionsPerPath = self.numberOfSolutions/(self.rowSize*self.colSize)
-		modelInput = [self.rowSize,self.colSize,self.numberOfSolutions,self.numberOfOnes,self.solutionsPerPath]
+		(self.levelMatrix, self.numberOfOnes) = generatorObj.generateLevel(self.mazeSize)
+		modelInput = [self.rowSize,self.numberOfOnes]
 		self.levelNumber= modelsObj.predictDifficulty(modelInput)[0]
 		self.visited = [[0 for i in range(self.colSize)] for j in range(self.rowSize)]
 		self.visited[0][0] = 1

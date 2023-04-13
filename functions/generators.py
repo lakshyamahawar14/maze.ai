@@ -251,19 +251,13 @@ class Generators:
 
     def generateLevel(self, size):
         levelMatrix = []
-        countpaths = 0
-        while (True):
-            levelMatrix = self.generateKruskalMaze(size)
-            countpaths = self.findUniquePaths(levelMatrix)
-            if (countpaths != 0):
-                break
+        levelMatrix = self.generateKruskalMaze(size)
         countones = 0
-        print(countpaths)
         for i in range(size[0]):
             for j in range(size[1]):
                 countones += levelMatrix[i][j] == 1
         self.generateKruskalMaze(size)
-        return (levelMatrix, countpaths, countones)
+        return (levelMatrix, countones)
 
     def __init__(self):
         pass
