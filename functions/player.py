@@ -18,7 +18,7 @@ class Player:
         colSize = size[1]
         lineLength = guiObj.lineLength
         x = X//2-colSize*lineLength//2+lineLength//2
-        y = Y//2-lineLength//2
+        y = Y//2-lineLength//2-100
         self.setPlayer((x, y))
 
     def movePlayer(self, key, screenObj, gameObj, guiObj):
@@ -27,7 +27,7 @@ class Player:
         colSize = gameObj.colSize
         
         j = (self.x_player-(X//2-colSize*guiObj.lineLength//2+guiObj.lineLength//2))//guiObj.lineLength
-        i = (self.y_player-(Y//2-guiObj.lineLength//2))//guiObj.lineLength
+        i = (self.y_player-(Y//2-guiObj.lineLength//2-100))//guiObj.lineLength
 
         mixer.init()
         mixer.music.load('assets/sounds/playermove.wav')
@@ -73,5 +73,5 @@ class Player:
         colSize = gameObj.colSize
         lineLength = guiObj.lineLength
         x = X//2-colSize*lineLength//2+lineLength//2
-        y = Y//2-lineLength//2
+        y = Y//2-lineLength//2-100
         self.setPlayer((x, y))

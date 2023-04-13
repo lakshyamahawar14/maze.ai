@@ -29,7 +29,7 @@ class Rules:
 
     def isPlayAgainClicked(self, isGameOver, pos, screenObj):
         (X, Y) = screenObj.getScreenSize()
-        if(isGameOver == True and pos[0] > X//2-50-25 and pos[0] < X//2+50+25 and pos[1] > Y//2-100-15 and pos[1] < Y//2-100+15):
+        if(isGameOver == True and pos[0] > X//2-50-25 and pos[0] < X//2+50+25 and pos[1] > Y//2-100-15-100 and pos[1] < Y//2-100+15-100):
             return True
         return False
 

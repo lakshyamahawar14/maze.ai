@@ -258,6 +258,7 @@ class Generators:
             if (countpaths != 0):
                 break
         countones = 0
+        print(countpaths)
         for i in range(size[0]):
             for j in range(size[1]):
                 countones += levelMatrix[i][j] == 1

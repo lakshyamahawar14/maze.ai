@@ -13,7 +13,7 @@ pygame.init()
 
 screenObj = Screen()
 modelsObj = Models()
-__random_level = np.random.randint(9,12)
+__random_level = np.random.randint(9,26)
 gameObj = Game((__random_level, __random_level), modelsObj)
 guiObj = GUI()
 playerObj = Player(screenObj, gameObj, guiObj)

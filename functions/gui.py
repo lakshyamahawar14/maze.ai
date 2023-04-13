@@ -48,7 +48,7 @@ class GUI:
         rowSize = gameObj.rowSize
         colSize = gameObj.colSize
         levelMatrix = gameObj.levelMatrix
-        (x, y) = (X//2-self.lineLength//2*colSize, Y//2-self.lineLength)
+        (x, y) = (X//2-self.lineLength//2*colSize, Y//2-self.lineLength-100)
 
         for i in range(colSize):
             self.drawHorizontalLine((x, y), self.lineLength, screenObj)
@@ -98,7 +98,7 @@ class GUI:
             for j in range(colSize):
                 if(gameObj.visited[i][j] == 1):
                     x_visited = X//2-colSize*self.lineLength//2+self.lineLength//2+self.lineLength*j
-                    y_visited = Y//2-self.lineLength//2+self.lineLength*i
+                    y_visited = Y//2-self.lineLength//2+self.lineLength*i-100
                     pygame.draw.line(screen, YELLOW, (x_visited-self.lineWidth//2, y_visited), (x_visited+self.lineWidth//2, y_visited), self.lineWidth)
 
     def createTextBox(self, text, textColor, boxColor, margin_x, margin_y):
@@ -123,7 +123,7 @@ class GUI:
         screen = screenObj.screen
         (X, Y) = screenObj.getScreenSize()
         textSurf = self.createTextBox("PLAY AGAIN", BLACK, GREEN, 10, 5)
-        screen.blit(textSurf, textSurf.get_rect(center = (X//2, Y//2-100)))
+        screen.blit(textSurf, textSurf.get_rect(center = (X//2, Y//2-200)))
 
     def drawQuit(self, screenObj):
         screen = screenObj.screen
@@ -176,7 +176,7 @@ class GUI:
         font = pygame.font.Font('assets/fonts/Poppins-Bold.ttf', self.fontSize)
         gameOverText = font.render('GAME OVER!', True, RED, BLACK)
         gameOverRect = gameOverText.get_rect()
-        gameOverRect.center = (X//2, Y//2-150)
+        gameOverRect.center = (X//2, Y//2-250)
         screen.blit(gameOverText, gameOverRect)
 
     def drawFinish(self, screenObj):
@@ -185,10 +185,10 @@ class GUI:
         font = pygame.font.Font('assets/fonts/Poppins-Bold.ttf', self.fontSize)
         gameOverText = font.render('VICTORY!', True, GREEN, BLACK)
         gameOverRect = gameOverText.get_rect()
-        gameOverRect.center = (X//2, Y//2-150)
+        gameOverRect.center = (X//2, Y//2-250)
         screen.blit(gameOverText, gameOverRect)
 
     def __init__(self):
         self.fontSize = 24
-        self.lineLength = 24
+        self.lineLength = 18
         self.lineWidth = 3
