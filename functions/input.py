@@ -5,9 +5,12 @@ class Input:
     difficultyInput = 0
 
     def takeRowInput(self, key):
-        if(int(key) < 49 or int(key) > 58):
+        if(int(key) == 8):
+            self.rowInput = int(self.rowInput/10)
+        elif(int(key) < 49 or int(key) > 58):
             return
-        self.rowInput = int(key)-48
+        else:
+            self.rowInput = self.rowInput*10 + (int(key)-48)
 
     def takeDifficultyInput(self, key):
         if(int(key) < 49 or int(key) > 53):
