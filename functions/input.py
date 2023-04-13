@@ -7,7 +7,7 @@ class Input:
     def takeRowInput(self, key):
         if(int(key) == 8):
             self.rowInput = int(self.rowInput/10)
-        elif(int(key) < 49 or int(key) > 58):
+        elif(int(key) < 48 or int(key) > 57):
             return
         else:
             self.rowInput = self.rowInput*10 + (int(key)-48)
