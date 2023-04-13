@@ -71,7 +71,7 @@ while True:
 				inputObj.toggleDifficultyInputFocus()
 			if(rulesObj.isRateClicked(pos, screenObj) == True):
 				gameObj.setLevel(inputObj.difficultyInput)
-				insertData(gameObj.rowSize, gameObj.colSize, gameObj.numberOfSolutions, gameObj.numberOfOnes, gameObj.solutionsPerPath, gameObj.levelNumber)
+				insertData(gameObj.rowSize, gameObj.numberOfOnes, gameObj.levelNumber)
 			if(rulesObj.isGenerateClicked(pos) == True):
 				gameObj = gameObj.startNewGame(screenObj, playerObj, guiObj, inputObj, modelsObj, (inputObj.rowInput, inputObj.colInput))
 				inputObj = Input(gameObj)
