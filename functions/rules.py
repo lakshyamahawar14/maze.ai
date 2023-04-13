@@ -40,18 +40,12 @@ class Rules:
         return False
 
     def isRowInputClicked(self, pos):
-        if(pos[0] > 100-47 and pos[0] < 150+50 and pos[1] > 150-20 and pos[1] < 150+15):
+        if(pos[0] > 100-49 and pos[0] < 150+52 and pos[1] > 150-20 and pos[1] < 150+15):
             return True
         return False
-
-    def isColInputClicked(self, pos):
-        if(pos[0] > 100-47 and pos[0] < 150+50 and pos[1] > 200-20 and pos[1] < 200+15):
-            return True
-        return False
-    
 
     def isGenerateClicked(self, pos):
-        if(pos[0] > 100-39 and pos[0] < 150+46 and pos[1] > 250-19 and pos[1] < 250+16):
+        if(pos[0] > 100-39 and pos[0] < 150+46 and pos[1] > 250-19-50 and pos[1] < 250+16-50):
             return True
         return False
     

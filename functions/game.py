@@ -29,7 +29,7 @@ class Game:
 			size = (__random_level, __random_level)
 		playerObj.resetPlayer(size, screenObj, guiObj)
 		inputObj.rowInput = size[0]
-		inputObj.colInput = size[1]
+		inputObj.rowInput = size[1]
 		inputObj.difficultyInput = 1
 		return Game(size, modelsObj)
 	

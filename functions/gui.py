@@ -134,20 +134,11 @@ class GUI:
     def drawRowInput(self, screenObj, inputObj):
         screen = screenObj.screen
         if(inputObj.isRowInputFocus == True):
-            textSurf = self.createTextBox(f'ROW SIZE: {inputObj.rowInput}|', BLACK, PINK, 10, 5)
+            textSurf = self.createTextBox(f'MAZE SIZE: {inputObj.rowInput}|', BLACK, PINK, 10, 5)
         else:
-            textSurf = self.createTextBox(f'ROW SIZE: {inputObj.rowInput}', BLACK, PINK, 10, 5)
+            textSurf = self.createTextBox(f'MAZE SIZE: {inputObj.rowInput}', BLACK, PINK, 10, 5)
             
         screen.blit(textSurf, textSurf.get_rect(center = (130, 150)))
-
-    def drawColInput(self, screenObj, inputObj):
-        screen = screenObj.screen
-        if(inputObj.isColInputFocus == True):
-            textSurf = self.createTextBox(f'COL SIZE: {inputObj.colInput}|', BLACK, PINK, 19, 5)
-        else:
-            textSurf = self.createTextBox(f'COL SIZE: {inputObj.colInput}', BLACK, PINK, 19, 5)
-            
-        screen.blit(textSurf, textSurf.get_rect(center = (130, 200)))
 
     def drawDifficultyInput(self, screenObj, inputObj):
         screen = screenObj.screen
@@ -168,7 +159,7 @@ class GUI:
     def drawGenerate(self, screenObj):
         screen = screenObj.screen
         text_surf = self.createTextBox('GENERATE', BLACK, GREEN, 10, 5)
-        screen.blit(text_surf, text_surf.get_rect(center = (130, 250)))
+        screen.blit(text_surf, text_surf.get_rect(center = (130, 200)))
 
     def drawGameOver(self, screenObj):
         screen = screenObj.screen
