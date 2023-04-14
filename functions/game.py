@@ -1,5 +1,5 @@
 import numpy as np
-from functions.generators import Generators
+from functions.solvers import Solvers
 
 class Game:
 	mazeSize = (0, 0)
@@ -23,7 +23,7 @@ class Game:
 	def loadGame(self, screenObj):
 		screenObj.resetScreen()
 
-	def startNewGame(self, screenObj, playerObj, guiObj, inputObj, modelsObj, generatorsObj, size=(0, 0)):
+	def startNewGame(self, screenObj, playerObj, guiObj, inputObj, modelsObj, generatorsObj, solversObj, size=(0, 0)):
 		if(size == (0, 0)):
 			__random_level = np.random.randint(9,26)
 			size = (__random_level, __random_level)
@@ -31,6 +31,8 @@ class Game:
 		inputObj.rowInput = size[0]
 		inputObj.rowInput = size[1]
 		inputObj.difficultyInput = 1
+		solversObj.toggleSolutionDisplayed()
+		solversObj.solutionPath = []
 		return Game(size, modelsObj, generatorsObj)
 	
 	def setLevel(self, levelNumber):

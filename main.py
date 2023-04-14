@@ -37,6 +37,8 @@ while True:
 	guiObj.drawVisited(screenObj, gameObj)
 	guiObj.drawPlayer(screenObj, playerObj)
 	guiObj.drawMaze(screenObj, gameObj)
+	if solversObj.isSolutionDisplayed == True:
+		guiObj.drawSolutionPath(solversObj, gameObj)
 	if gameObj.isGameOver == True:
 		guiObj.drawGameOver(screenObj)
 		guiObj.drawPlayAgain(screenObj)
@@ -63,9 +65,10 @@ while True:
 			if(rulesObj.isResetClicked(pos) == True):
 				gameObj.resetGame(screenObj, playerObj, guiObj)
 			if(rulesObj.isSolutionClicked(pos) == True):
-				print(solversObj.backtrackingSolver(generatorsObj.generatorObj))
+				solversObj.solutionPath = solversObj.backtrackingSolver(generatorsObj.generatorObj)
+				solversObj.toggleSolutionDisplayed()
 			if(rulesObj.isPlayAgainClicked(gameObj.isGameOver or gameObj.isGameFinish, pos, screenObj) == True or rulesObj.isRandomClicked(pos) == True):
-				gameObj = gameObj.startNewGame(screenObj, playerObj, guiObj, inputObj, modelsObj, generatorsObj)	
+				gameObj = gameObj.startNewGame(screenObj, playerObj, guiObj, inputObj, modelsObj, generatorsObj, solversObj)	
 				inputObj = Input(gameObj)
 			if(rulesObj.isRowInputClicked(pos) == True or (rulesObj.isRowInputClicked(pos) == False and inputObj.isRowInputFocus == True)):
 				inputObj.toggleRowInputFocus()
@@ -75,7 +78,7 @@ while True:
 				gameObj.setLevel(inputObj.difficultyInput)
 				insertData(gameObj.rowSize, gameObj.numberOfOnes, gameObj.levelNumber)
 			if(rulesObj.isGenerateClicked(pos) == True):
-				gameObj = gameObj.startNewGame(screenObj, playerObj, guiObj, inputObj, modelsObj, generatorsObj, (inputObj.rowInput, inputObj.rowInput))
+				gameObj = gameObj.startNewGame(screenObj, playerObj, guiObj, inputObj, modelsObj, generatorsObj, solversObj, (inputObj.rowInput, inputObj.rowInput))
 				inputObj = Input(gameObj)
 			if(rulesObj.isQuitClicked(pos, screenObj) == True):
 				pygame.quit()
