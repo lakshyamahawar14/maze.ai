@@ -156,6 +156,11 @@ class GUI:
         text_surf = self.createTextBox('RATE', BLACK, YELLOW, 10, 5)
         screen.blit(text_surf, text_surf.get_rect(center = (130, Y-50)))
 
+    def drawSolution(self, screenObj):
+        screen = screenObj.screen
+        textSurf = self.createTextBox("SOLUTION", BLACK, GREEN, 10, 5)
+        screen.blit(textSurf, textSurf.get_rect(center = (430, 50)))
+
     def drawGenerate(self, screenObj):
         screen = screenObj.screen
         text_surf = self.createTextBox('GENERATE', BLACK, GREEN, 10, 5)

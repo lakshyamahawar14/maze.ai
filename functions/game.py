@@ -23,7 +23,7 @@ class Game:
 	def loadGame(self, screenObj):
 		screenObj.resetScreen()
 
-	def startNewGame(self, screenObj, playerObj, guiObj, inputObj, modelsObj, size=(0, 0)):
+	def startNewGame(self, screenObj, playerObj, guiObj, inputObj, modelsObj, generatorsObj, size=(0, 0)):
 		if(size == (0, 0)):
 			__random_level = np.random.randint(9,26)
 			size = (__random_level, __random_level)
@@ -31,7 +31,7 @@ class Game:
 		inputObj.rowInput = size[0]
 		inputObj.rowInput = size[1]
 		inputObj.difficultyInput = 1
-		return Game(size, modelsObj)
+		return Game(size, modelsObj, generatorsObj)
 	
 	def setLevel(self, levelNumber):
 		self.levelNumber = levelNumber
@@ -40,12 +40,11 @@ class Game:
 		(i, j) = position
 		self.visited[i][j] = value
 		
-	def __init__(self, mazeSize, modelsObj):
+	def __init__(self, mazeSize, modelsObj, generatorsObj):
 		self.mazeSize = mazeSize
 		self.rowSize = self.mazeSize[0]
 		self.colSize = self.mazeSize[1]
-		generatorObj = Generators()
-		(self.levelMatrix, self.numberOfOnes) = generatorObj.generateLevel(self.mazeSize)
+		(self.levelMatrix, self.numberOfOnes) = generatorsObj.generateLevel(self.mazeSize)
 		modelInput = [self.rowSize,self.numberOfOnes]
 		self.levelNumber= modelsObj.predictDifficulty(modelInput)[0]
 		self.visited = [[0 for i in range(self.colSize)] for j in range(self.rowSize)]

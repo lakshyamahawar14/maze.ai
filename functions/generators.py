@@ -87,17 +87,13 @@ class KruskalMaze:
             e2 = edge[1]
             if e1[0] == e2[0]:
                 if e1[1] > e2[1]:
-                    # left edge
                     edge_data.append([[e1[1], e1[1]], [e1[0]+1, e1[0]]])
                 else:
-                    # right edge
                     edge_data.append([[e1[1]+1, e1[1]+1], [e1[0], e1[0]+1]])
             if e1[1] == e2[1]:
                 if e1[0] > e2[0]:
-                    # need a top edge
                     edge_data.append([[e1[1], e1[1]+1], [e1[0], e1[0]]])
                 else:
-                    # bottom edge
                     edge_data.append([[e1[1]+1, e1[1]], [e1[0]+1, e1[0]+1]])
         edge_data.extend(self.entry_exit_edges)
         return edge_data
@@ -113,8 +109,6 @@ class KruskalMaze:
                 elif [[j+1, j], [i, i]] in edge_data:
                     pass
                 else:
-                    # print("edge between ", "(", j, ", ", i, ")",
-                    #       " and ", "(", j+1, ", ", i, ")")
                     maze_data.append([(j, i), (j+1, i)])
                 bottom_edge = [[j+1, j], [i+1, i+1]]
                 if bottom_edge in edge_data:
@@ -122,8 +116,6 @@ class KruskalMaze:
                 elif [[j, j+1], [i+1, i+1]] in edge_data:
                     pass
                 else:
-                    # print("edge between ", "(", j+1, ", ", i+1, ")",
-                    #       " and ", "(", j, ", ", i+1, ")")
                     maze_data.append([(j+1, i+1), (j, i+1)])
                 right_edge = [[j+1, j+1], [i, i+1]]
                 if right_edge in edge_data:
@@ -131,8 +123,6 @@ class KruskalMaze:
                 elif [[j+1, j+1], [i+1, i]] in edge_data:
                     pass
                 else:
-                    # print("edge between ", "(", j+1, ", ", i, ")",
-                    #       " and ", "(", j+1, ", ", i+1, ")")
                     maze_data.append([(j+1, i), (j+1, i+1)])
                 left_edge = [[j, j], [i+1, i]]
                 if left_edge in edge_data:
@@ -140,33 +130,23 @@ class KruskalMaze:
                 elif [[j, j], [i, i+1],] in edge_data:
                     pass
                 else:
-                    # print("edge between ", "(", j, ", ", i, ")",
-                    #       " and ", "(", j, ", ", i+1, ")")
                     maze_data.append([(j, i), (j, i+1)])
         return maze_data
 
     def getEntryExits(self):
+        p1 = (self.height-1, 0)
+        p2 = (0, self.height-1)
+        self.entry_exit_points = [p1, p2]
         entry_exit_edge_data = []
-        p1 = (0, random.randint(0, self.width-1))
-        half_h = self.height // 2
-        p2 = (random.randint(half_h, self.height-1), 0)
-        p3 = (self.height-1, (random.randint(0, self.height-1)))
-        half_w = self.width // 2
-        p4 = (random.randint(half_w, self.width-1), self.height-1)
         entry_exit_edge_data.append(
-            [[p1[1], p1[1]+1], [p1[0], p1[0]]])  # bottom edge
+            [[p1[1], p1[1]+1], [p1[0], p1[0]]])
         entry_exit_edge_data.append(
-            [[p2[1], p2[1]], [p2[0]+1, p2[0]]])  # left edge
-        entry_exit_edge_data.append(
-            [[p3[1], p3[1]+1], [p3[0]+1, p3[0]+1]])  # top edge
-        entry_exit_edge_data.append(
-            [[p4[1]+1, p4[1]+1], [p4[0], p4[0]+1]])  # right edge
-        # squares of entry/exit locations
-        self.entry_exit_points = [p1, p2, p3, p4]
+            [[p2[1], p2[1]], [p2[0]+1, p2[0]]])
         return self.entry_exit_points, entry_exit_edge_data
 
 
 class Generators:
+    generatorObj = None
     def generateRandom(self, size):
         row = 2*size[0]-1
         col = 2*size[1]-1
@@ -226,9 +206,10 @@ class Generators:
 
 
     def generateKruskalMaze(self, size):
-        mazeData = KruskalMaze(size[0], size[1]).maze_data
+        kruskalObj = KruskalMaze(size[0], size[1])
+        mazeData = kruskalObj.maze_data
         levelMatrix = self.transformMazeData(size, mazeData)
-        return levelMatrix
+        return levelMatrix, kruskalObj
 
     def findUniquePathsHelper(self, i, j, r, c, levelMatrix):
         if (i == r or j == c):
@@ -251,7 +232,8 @@ class Generators:
 
     def generateLevel(self, size):
         levelMatrix = []
-        levelMatrix = self.generateKruskalMaze(size)
+        levelMatrix, kruskalObj = self.generateKruskalMaze(size)
+        self.generatorObj = kruskalObj
         countones = 0
         for i in range(size[0]):
             for j in range(size[1]):

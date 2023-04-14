@@ -8,17 +8,21 @@ from functions.input import Input
 from functions.rules import Rules
 from functions.writecsv import insertData
 from functions.models import Models
+from functions.solvers import Solvers
+from functions.generators import Generators
 
 pygame.init()
 
 screenObj = Screen()
 modelsObj = Models()
 __random_level = np.random.randint(9,26)
-gameObj = Game((__random_level, __random_level), modelsObj)
+generatorsObj = Generators()
+gameObj = Game((__random_level, __random_level), modelsObj, generatorsObj)
 guiObj = GUI()
 playerObj = Player(screenObj, gameObj, guiObj)
 inputObj = Input(gameObj)
 rulesObj = Rules()
+solversObj = Solvers()
 
 while True:
 	gameObj.loadGame(screenObj)
@@ -28,6 +32,7 @@ while True:
 	guiObj.drawGenerate(screenObj)
 	guiObj.drawDifficultyInput(screenObj, inputObj)
 	guiObj.drawRate(screenObj)
+	guiObj.drawSolution(screenObj)
 	guiObj.drawQuit(screenObj)
 	guiObj.drawVisited(screenObj, gameObj)
 	guiObj.drawPlayer(screenObj, playerObj)
@@ -57,8 +62,10 @@ while True:
 			pos = pygame.mouse.get_pos()
 			if(rulesObj.isResetClicked(pos) == True):
 				gameObj.resetGame(screenObj, playerObj, guiObj)
+			if(rulesObj.isSolutionClicked(pos) == True):
+				print(solversObj.backtrackingSolver(generatorsObj.generatorObj))
 			if(rulesObj.isPlayAgainClicked(gameObj.isGameOver or gameObj.isGameFinish, pos, screenObj) == True or rulesObj.isRandomClicked(pos) == True):
-				gameObj = gameObj.startNewGame(screenObj, playerObj, guiObj, inputObj, modelsObj)	
+				gameObj = gameObj.startNewGame(screenObj, playerObj, guiObj, inputObj, modelsObj, generatorsObj)	
 				inputObj = Input(gameObj)
 			if(rulesObj.isRowInputClicked(pos) == True or (rulesObj.isRowInputClicked(pos) == False and inputObj.isRowInputFocus == True)):
 				inputObj.toggleRowInputFocus()
@@ -68,7 +75,7 @@ while True:
 				gameObj.setLevel(inputObj.difficultyInput)
 				insertData(gameObj.rowSize, gameObj.numberOfOnes, gameObj.levelNumber)
 			if(rulesObj.isGenerateClicked(pos) == True):
-				gameObj = gameObj.startNewGame(screenObj, playerObj, guiObj, inputObj, modelsObj, (inputObj.rowInput, inputObj.rowInput))
+				gameObj = gameObj.startNewGame(screenObj, playerObj, guiObj, inputObj, modelsObj, generatorsObj, (inputObj.rowInput, inputObj.rowInput))
 				inputObj = Input(gameObj)
 			if(rulesObj.isQuitClicked(pos, screenObj) == True):
 				pygame.quit()

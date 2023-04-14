@@ -26,6 +26,11 @@ class Rules:
         if(pos[0] > 250-58 and pos[0] < 250+58 and pos[1] > 50-20 and pos[1] < 50+15):
             return True
         return False
+    
+    def isSolutionClicked(self, pos):
+        if(pos[0] > 430-66 and pos[0] < 430+64 and pos[1] > 50-20 and pos[1] < 50+15):
+            return True
+        return False
 
     def isPlayAgainClicked(self, isGameOver, pos, screenObj):
         (X, Y) = screenObj.getScreenSize()
