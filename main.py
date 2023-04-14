@@ -38,7 +38,8 @@ while True:
 	guiObj.drawPlayer(screenObj, playerObj)
 	guiObj.drawMaze(screenObj, gameObj)
 	if solversObj.isSolutionDisplayed == True:
-		guiObj.drawSolutionPath(solversObj, gameObj)
+		gameObj.isGameFinish = True
+		solversObj.toggleSolutionDisplayed()
 	if gameObj.isGameOver == True:
 		guiObj.drawGameOver(screenObj)
 		guiObj.drawPlayAgain(screenObj)
@@ -67,6 +68,7 @@ while True:
 			if(rulesObj.isSolutionClicked(pos) == True):
 				solversObj.solutionPath = solversObj.backtrackingSolver(generatorsObj.generatorObj)
 				solversObj.toggleSolutionDisplayed()
+				solversObj.insertSolutionPath(solversObj, gameObj)
 			if(rulesObj.isPlayAgainClicked(gameObj.isGameOver or gameObj.isGameFinish, pos, screenObj) == True or rulesObj.isRandomClicked(pos) == True):
 				gameObj = gameObj.startNewGame(screenObj, playerObj, guiObj, inputObj, modelsObj, generatorsObj, solversObj)	
 				inputObj = Input(gameObj)

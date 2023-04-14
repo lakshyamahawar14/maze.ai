@@ -31,7 +31,6 @@ class Game:
 		inputObj.rowInput = size[0]
 		inputObj.rowInput = size[1]
 		inputObj.difficultyInput = 1
-		solversObj.toggleSolutionDisplayed()
 		solversObj.solutionPath = []
 		return Game(size, modelsObj, generatorsObj)
 	

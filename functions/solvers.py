@@ -30,7 +30,15 @@ class Solvers:
             self.isSolutionDisplayed = True
         else:
             self.isSolutionDisplayed = False
-            
+
+    def insertSolutionPath(self, solversObj, gameObj):
+        solutionPath = solversObj.solutionPath
+        for i in range(len(solutionPath)):
+            x = solutionPath[i][0]
+            y = solutionPath[i][1]
+            index_i = gameObj.rowSize-x-1
+            index_j = y
+            gameObj.updateVisited((index_i, index_j), 1)
 
     def __init__(self):
         self.isSolutionDisplayed = False
