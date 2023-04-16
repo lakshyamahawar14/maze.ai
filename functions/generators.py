@@ -3,9 +3,9 @@ import random
 
 
 class KruskalMaze:
-    def __init__(self, width, height):
-        self.width = width
-        self.height = height
+    def __init__(self, colSize, rowSize):
+        self.colSize = colSize
+        self.rowSize = rowSize
         self.nodes, self.edges = self.createGraph()
         self.maze = self.generateGrid()
         self.maze_edges = self.maze
@@ -14,7 +14,7 @@ class KruskalMaze:
         self.maze_data = self.getMazeWalls()
 
     def get_random_edge_weights(self):
-        edge_weights = [(random.randint(1, 4), x, y) for (x, y) in self.edges]
+        edge_weights = [(random.randint(1,4), x, y) for (x, y) in self.edges]
         return edge_weights
 
     def getLegalTraversalEdges(self):
@@ -31,8 +31,8 @@ class KruskalMaze:
         return legal_edges
 
     def createGraph(self):
-        x = self.width
-        y = self.height
+        x = self.colSize
+        y = self.rowSize
         nodes = set()
         edges = set()
         for i in range(x):
@@ -101,8 +101,8 @@ class KruskalMaze:
     def getMazeWalls(self):
         edge_data = self.getEdgeLocations()
         maze_data = []
-        for i in range(self.height):
-            for j in range(self.width):
+        for i in range(self.rowSize):
+            for j in range(self.colSize):
                 top_edge = [[j, j+1], [i, i]]
                 if top_edge in edge_data:
                     pass
@@ -134,8 +134,8 @@ class KruskalMaze:
         return maze_data
 
     def getEntryExits(self):
-        p1 = (self.height-1, 0)
-        p2 = (0, self.height-1)
+        p1 = (self.rowSize-1, 0)
+        p2 = (0, self.rowSize-1)
         self.entry_exit_points = [p1, p2]
         entry_exit_edge_data = []
         entry_exit_edge_data.append(

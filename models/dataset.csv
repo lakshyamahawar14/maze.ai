@@ -1,4 +1,2 @@
-mazeSize,numberOfOnes,difficultyLevel
-3,4,1
-4,9,1
-8,24,2
+mazeSize,wallDensity,branchingFactor,solutionDistortions,MSTCost,difficultyLevel
+5,64,4,12,24,1

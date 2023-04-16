@@ -10,6 +10,7 @@ from functions.writecsv import insertData
 from functions.models import Models
 from functions.solvers import Solvers
 from functions.generators import Generators
+from functions.params import Params
 
 pygame.init()
 
@@ -17,12 +18,13 @@ screenObj = Screen()
 modelsObj = Models()
 __random_level = np.random.randint(9,26)
 generatorsObj = Generators()
-gameObj = Game((__random_level, __random_level), modelsObj, generatorsObj)
+paramsObj = Params()
+solversObj = Solvers()
+gameObj = Game((__random_level, __random_level), modelsObj, generatorsObj, solversObj, paramsObj)
 guiObj = GUI()
 playerObj = Player(screenObj, gameObj, guiObj)
 inputObj = Input(gameObj)
 rulesObj = Rules()
-solversObj = Solvers()
 
 while True:
 	gameObj.loadGame(screenObj)
@@ -70,7 +72,7 @@ while True:
 				solversObj.toggleSolutionDisplayed()
 				solversObj.insertSolutionPath(solversObj, gameObj)
 			if(rulesObj.isPlayAgainClicked(gameObj.isGameOver or gameObj.isGameFinish, pos, screenObj) == True or rulesObj.isRandomClicked(pos) == True):
-				gameObj = gameObj.startNewGame(screenObj, playerObj, guiObj, inputObj, modelsObj, generatorsObj, solversObj)	
+				gameObj = gameObj.startNewGame(screenObj, playerObj, guiObj, inputObj, modelsObj, generatorsObj, solversObj, paramsObj)	
 				inputObj = Input(gameObj)
 			if(rulesObj.isRowInputClicked(pos) == True or (rulesObj.isRowInputClicked(pos) == False and inputObj.isRowInputFocus == True)):
 				inputObj.toggleRowInputFocus()
@@ -78,9 +80,9 @@ while True:
 				inputObj.toggleDifficultyInputFocus()
 			if(rulesObj.isRateClicked(pos, screenObj) == True):
 				gameObj.setLevel(inputObj.difficultyInput)
-				insertData(gameObj.rowSize, gameObj.numberOfOnes, gameObj.levelNumber)
+				insertData(paramsObj, gameObj, solversObj, generatorsObj.generatorObj, inputObj.difficultyInput)
 			if(rulesObj.isGenerateClicked(pos) == True):
-				gameObj = gameObj.startNewGame(screenObj, playerObj, guiObj, inputObj, modelsObj, generatorsObj, solversObj, (inputObj.rowInput, inputObj.rowInput))
+				gameObj = gameObj.startNewGame(screenObj, playerObj, guiObj, inputObj, modelsObj, generatorsObj, solversObj, paramsObj, (inputObj.rowInput, inputObj.rowInput))
 				inputObj = Input(gameObj)
 			if(rulesObj.isQuitClicked(pos, screenObj) == True):
 				pygame.quit()

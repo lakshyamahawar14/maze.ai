@@ -13,9 +13,12 @@ class Input:
             self.rowInput = self.rowInput*10 + (int(key)-48)
 
     def takeDifficultyInput(self, key):
-        if(int(key) < 49 or int(key) > 53):
+        if(int(key) == 8):
+            self.difficultyInput = int(self.difficultyInput/10)
+        elif(int(key) < 48 or int(key) > 57):
             return
-        self.difficultyInput = int(key)-48
+        else:
+            self.difficultyInput = self.difficultyInput*10 + (int(key)-48)
 
     def toggleRowInputFocus(self):
         if(self.isRowInputFocus == True):

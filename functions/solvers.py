@@ -2,7 +2,6 @@ import random
 
 
 class Solvers:
-
     def backtrackingSolver(self, generatorObj):
         legal_edges = generatorObj.legal_edges
         starting_point = generatorObj.entry_exit_points[0]
