@@ -1,5 +1,5 @@
 import pygame
-from functions.colors import RED, BLACK, PURPLE, GREEN, PINK, YELLOW, WHITE
+from functions.colors import RED, BLACK, PURPLE, GREEN, PINK, YELLOW, WHITE, SKYBLUE
 
 
 class GUI:
@@ -21,7 +21,7 @@ class GUI:
         screen = screenObj.screen
         font = pygame.font.Font(
             'assets/fonts/Poppins-Bold.ttf', self.fontSize+12)
-        headText = font.render('MAZE.AI', True, GREEN, BLACK)
+        headText = font.render('MAZE.AI', True, BLACK, WHITE)
         headRect = headText.get_rect()
         headRect.center = (X//2, 50)
         screen.blit(headText, headRect)
@@ -31,7 +31,7 @@ class GUI:
         screen = screenObj.screen
         font = pygame.font.Font('assets/fonts/Poppins-Bold.ttf', self.fontSize)
         levelText = font.render(
-            f'LEVEL: {gameObj.levelNumber}', True, GREEN, BLACK)
+            f'LEVEL: {gameObj.levelNumber}', True, BLACK, WHITE)
         levelRect = levelText.get_rect()
         levelRect.center = (X//2, 150)
         screen.blit(levelText, levelRect)
@@ -39,12 +39,12 @@ class GUI:
     def drawHorizontalLine(self, position, offset, screenObj):
         screen = screenObj.screen
         (x, y) = position
-        pygame.draw.line(screen, GREEN, (x, y), (x+offset, y), self.lineWidth)
+        pygame.draw.line(screen, BLACK, (x, y), (x+offset, y), self.lineWidth)
 
     def drawVerticalLine(self, position, offset, screenObj):
         screen = screenObj.screen
         (x, y) = position
-        pygame.draw.line(screen, GREEN, (x, y), (x, y+offset), self.lineWidth)
+        pygame.draw.line(screen, BLACK, (x, y), (x, y+offset), self.lineWidth)
 
     def drawMaze(self, screenObj, gameObj):
         (X, Y) = screenObj.getScreenSize()
@@ -102,7 +102,7 @@ class GUI:
                 if (gameObj.visited[i][j] == 1):
                     x_visited = X//2-colSize*self.lineLength//2+self.lineLength//2+self.lineLength*j
                     y_visited = Y//2-self.lineLength//2+self.lineLength*i-100
-                    pygame.draw.line(screen, YELLOW, (x_visited-self.lineWidth//2, y_visited),
+                    pygame.draw.line(screen, BLACK, (x_visited-self.lineWidth//2, y_visited),
                                      (x_visited+self.lineWidth//2, y_visited), self.lineWidth)
 
     def createTextBox(self, text, textColor, boxColor, margin_x, margin_y):
@@ -122,7 +122,7 @@ class GUI:
 
     def drawRandom(self, screenObj):
         screen = screenObj.screen
-        textSurf = self.createTextBox("RANDOM", BLACK, PURPLE, 10, 5)
+        textSurf = self.createTextBox("RANDOM", BLACK, SKYBLUE, 10, 5)
         screen.blit(textSurf, textSurf.get_rect(center=(250, 50)))
 
     def drawPlayAgain(self, screenObj):
@@ -180,7 +180,7 @@ class GUI:
         screen = screenObj.screen
         (X, Y) = screenObj.getScreenSize()
         font = pygame.font.Font('assets/fonts/Poppins-Bold.ttf', self.fontSize)
-        gameOverText = font.render('GAME OVER!', True, RED, BLACK)
+        gameOverText = font.render('GAME OVER!', True, RED, WHITE)
         gameOverRect = gameOverText.get_rect()
         gameOverRect.center = (X//2, Y//2-250)
         screen.blit(gameOverText, gameOverRect)
@@ -189,7 +189,7 @@ class GUI:
         screen = screenObj.screen
         (X, Y) = screenObj.getScreenSize()
         font = pygame.font.Font('assets/fonts/Poppins-Bold.ttf', self.fontSize)
-        gameOverText = font.render('VICTORY!', True, GREEN, BLACK)
+        gameOverText = font.render('VICTORY!', True, GREEN, WHITE)
         gameOverRect = gameOverText.get_rect()
         gameOverRect.center = (X//2, Y//2-250)
         screen.blit(gameOverText, gameOverRect)

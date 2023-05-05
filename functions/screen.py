@@ -1,5 +1,5 @@
 import pygame
-from functions.colors import BLACK
+from functions.colors import WHITE
 
 class Screen:
     screen = None
@@ -13,7 +13,7 @@ class Screen:
         (self.HEIGHT, self.WIDTH) = size
 
     def resetScreen(self):
-        self.screen.fill(BLACK)
+        self.screen.fill(WHITE)
 
     def __init__(self):
         screenInfo = pygame.display.Info()
@@ -21,7 +21,7 @@ class Screen:
         self.setScreenSize(screenSize)
 
         self.screen = pygame.display.set_mode(screenSize)
-        self.screen.fill(BLACK)
+        self.screen.fill(WHITE)
 
         pygame.display.set_caption('MAZE.AI')
 
